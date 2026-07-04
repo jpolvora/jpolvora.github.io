@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jone Polvora | Portfolio</title>
+  <meta name="description" content="Portfolio profissional de Jone Polvora, Senior Software Engineer e especialista em soluções de Backend, Microsoft Azure, C# .NET MAUI e Clean Architecture.">
+  <meta name="author" content="Jone Polvora">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background decorations -->
+  <div class="container">
+    
+    <!-- Hero / Profile Section -->
+    <header>
+      <div class="profile-card">
+        <div class="avatar-container">
+          <img class="profile-avatar" src="https://avatars.githubusercontent.com/u/955554?v=4" alt="Jone Polvora">
+          <div class="status-badge" id="hireable-badge">
+            <span class="status-dot"></span>
+            Disponível
+          </div>
+        </div>
+        
+        <div class="profile-info">
+          <h1 class="profile-name">Jone Polvora</h1>
+          <p class="profile-title">Senior Software Engineer &amp; Tech Consultant</p>
+          <p class="profile-bio">
+            Senior Software Engineer | Developer | Fullstack | Backend Specialist | Microsoft | Azure | Clean Arch | C# .NET MAUI.
+            Consultor de tecnologia focado em entregar soluções robustas e escaláveis de alto desempenho.
+          </p>
+          
+          <div class="profile-links">
+            <a href="https://github.com/jpolvora" class="btn btn-primary" id="github-profile-link" target="_blank" rel="noopener noreferrer">
+              <svg style="width:18px;height:18px;fill:currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.137 20.162 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+              </svg>
+              GitHub
+            </a>
+            <a href="mailto:jpolvora@gmail.com" class="btn btn-secondary" id="email-link">
+              <svg style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2" viewBox="0 0 24 24">
+                <rect width="20" height="16" x="2" y="4" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+              Contato
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Stats & Analytics Dashboard -->
+    <section class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num" id="total-repos-count">-</div>
+          <div class="stat-label">Projetos no Portfolio</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="total-stars-count">-</div>
+          <div class="stat-label">Total de Stars</div>
+        </div>
+      </div>
+      
+      <!-- Languages distribution dynamic display -->
+      <div class="languages-box" id="languages-box" style="display:none">
+        <h2 class="languages-title">
+          <svg style="width:20px;height:20px;color:var(--accent)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+          Principais Tecnologias
+        </h2>
+        <div class="languages-bar" id="languages-bar-container">
+          <!-- Dynamic segments will be inserted here -->
+        </div>
+        <div class="languages-legend" id="languages-legend-container">
+          <!-- Legends will go here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Projects Section -->
+    <main>
+      <div class="portfolio-header">
+        <h2 class="portfolio-title">Projetos em Destaque</h2>
+        <div class="search-filter-box">
+          <div class="search-input-wrapper">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" id="search-input" class="search-input" placeholder="Buscar projetos por nome ou descrição...">
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters dynamic badges container -->
+      <div class="filters-container" id="filters-container">
+        <!-- Badges will be generated dynamically -->
+      </div>
+
+      <!-- Projects Grid -->
+      <div class="projects-grid" id="projects-grid">
+        <div class="empty-state">
+          <div class="empty-state-icon">⌛</div>
+          <h3>Carregando projetos...</h3>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-socials">
+          <a href="https://github.com/jpolvora" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="mailto:jpolvora@gmail.com" class="footer-link">E-mail</a>
+          <a href="http://jpolvora.wordpress.com" class="footer-link" target="_blank" rel="noopener noreferrer">Blog</a>
+        </div>
+        <p class="footer-copy">&copy; 2026 Jone Polvora. Desenvolvido profissionalmente.</p>
+        <div>
+          <span class="footer-update-badge" id="last-updated-badge">
+            <svg style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            Atualizado: <span id="last-updated-date">-</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Frontend logic -->
+  <script src="app.js"></script>
+</body>
+</html>

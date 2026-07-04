@@ -1,0 +1,17 @@
+{
+  "name": "jportifolio",
+  "version": "1.0.0",
+  "description": "Jone Polvora's Personal Portfolio and GitHub Pages Automator",
+  "type": "module",
+  "main": "update.js",
+  "scripts": {
+    "update": "node update.js"
+  },
+  "keywords": [
+    "portfolio",
+    "github-pages",
+    "automation"
+  ],
+  "author": "Jone Polvora <jpolvora@gmail.com>",
+  "license": "MIT"
+}
