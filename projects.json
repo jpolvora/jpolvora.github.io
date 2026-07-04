@@ -1,9 +1,378 @@
 {
-  "updatedAt": "2026-07-04T18:00:00-04:00",
+  "updatedAt": "2026-07-04T23:02:02.131Z",
   "stats": {
-    "totalRepos": 0,
-    "totalStars": 0,
-    "languages": {}
+    "totalRepos": 37,
+    "totalStars": 7,
+    "languages": {
+      "JavaScript": 30.3,
+      "C#": 27.3,
+      "PowerShell": 3,
+      "TypeScript": 21.2,
+      "Java": 6.1,
+      "PHP": 12.1
+    }
   },
-  "projects": []
+  "projects": [
+    {
+      "name": "MEFedIoC",
+      "description": "MEFedIoC is a project that contains extension methods that will allows you to use MEF as an IoC container.",
+      "stargazerCount": 2,
+      "url": "https://github.com/jpolvora/MEFedIoC",
+      "homepageUrl": "",
+      "primaryLanguage": null,
+      "topics": []
+    },
+    {
+      "name": "spa-parcel",
+      "description": "buildable vanilla knockout navigo parcel build template",
+      "stargazerCount": 1,
+      "url": "https://github.com/jpolvora/spa-parcel",
+      "homepageUrl": "",
+      "primaryLanguage": "JavaScript",
+      "topics": [
+        "parcel-bundler",
+        "knockoutjs",
+        "navigo",
+        "gulp",
+        "spa",
+        "single-page-app",
+        "boilerplate",
+        "template-app",
+        "babel",
+        "mini-framework",
+        "single-page-applications",
+        "single-page-apps"
+      ]
+    },
+    {
+      "name": "pagsegurokit",
+      "description": "Integração customizada com o PagSeguro",
+      "stargazerCount": 1,
+      "url": "https://github.com/jpolvora/pagsegurokit",
+      "homepageUrl": "",
+      "primaryLanguage": "C#",
+      "topics": []
+    },
+    {
+      "name": "Metavision.UltraLight",
+      "description": "Metavision Ultralight Container is a simple and faster IoC/DI Container.",
+      "stargazerCount": 1,
+      "url": "https://github.com/jpolvora/Metavision.UltraLight",
+      "homepageUrl": "",
+      "primaryLanguage": null,
+      "topics": []
+    },
+    {
+      "name": "DuranBreez",
+      "description": "My AMD's for Durandal and Breeze",
+      "stargazerCount": 1,
+      "url": "https://github.com/jpolvora/DuranBreez",
+      "homepageUrl": "",
+      "primaryLanguage": "JavaScript",
+      "topics": []
+    },
+    {
+      "name": "jpolvora.Posts",
+      "description": "My code from Blog Posts",
+      "stargazerCount": 1,
+      "url": "https://github.com/jpolvora/jpolvora.Posts",
+      "homepageUrl": "",
+      "primaryLanguage": "C#",
+      "topics": []
+    },
+    {
+      "name": "cursor-profile-manager",
+      "description": "multi profile cursor user-data-dir desktop manager scripts powershell winforms",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/cursor-profile-manager",
+      "homepageUrl": "",
+      "primaryLanguage": "PowerShell",
+      "topics": []
+    },
+    {
+      "name": "agentic-code-reviewers",
+      "description": "Multi Agent Code Reviewer",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/agentic-code-reviewers",
+      "homepageUrl": "",
+      "primaryLanguage": "TypeScript",
+      "topics": []
+    },
+    {
+      "name": "cursor-reviewer-demo-project",
+      "description": "cursor-reviewer-demo-project that runs cursor-reviewer on PR actions ",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/cursor-reviewer-demo-project",
+      "homepageUrl": "",
+      "primaryLanguage": "C#",
+      "topics": []
+    },
+    {
+      "name": "cursor-reviewer",
+      "description": "agentic pipeline code reviewr using cursor-sdk",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/cursor-reviewer",
+      "homepageUrl": "",
+      "primaryLanguage": "TypeScript",
+      "topics": []
+    },
+    {
+      "name": "notevault",
+      "description": "# 📔 NoteVault - The Secure, Fluent Developer Notepad",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/notevault",
+      "homepageUrl": "",
+      "primaryLanguage": "TypeScript",
+      "topics": []
+    },
+    {
+      "name": "pejotinha-v4",
+      "description": "🚀 Pejotinha v4 - Freelancer Dashboard & Proof of Work",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/pejotinha-v4",
+      "homepageUrl": "",
+      "primaryLanguage": "JavaScript",
+      "topics": []
+    },
+    {
+      "name": "Microsoft.FeatureManagement.Plus",
+      "description": "Add enhancements to Microsoft.FeatureManagement library, such as Entity Framework as IFeatureDefinitionProvider, Caching, Logging, Context Filters tenant-aware and more!",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/Microsoft.FeatureManagement.Plus",
+      "homepageUrl": "https://github.com/jpolvora/Microsoft.FeatureManagement.Plus",
+      "primaryLanguage": "C#",
+      "topics": [
+        "enabled-state-filtering",
+        "feature-flags",
+        "feature-management",
+        "feature-toggle",
+        "features",
+        "remote-config",
+        "featuredefinitionprovider"
+      ]
+    },
+    {
+      "name": "FlagSharp",
+      "description": "Simple yet powerful .NET Feature Flag Management Library based on Microsoft.FeatureManagement",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/FlagSharp",
+      "homepageUrl": "",
+      "primaryLanguage": "C#",
+      "topics": []
+    },
+    {
+      "name": "StartWars",
+      "description": "Demo project demonstrating MongoDB, RabbitMQ, Swagger, Docker, StarWars API (swapi.dev)",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/StartWars",
+      "homepageUrl": "",
+      "primaryLanguage": "JavaScript",
+      "topics": [
+        "docker",
+        "docker-compose",
+        "express",
+        "mongodb",
+        "rabbitmq",
+        "swagger"
+      ]
+    },
+    {
+      "name": "FamilyRegistration",
+      "description": "Calculates Family Score for Buying Own Home ",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/FamilyRegistration",
+      "homepageUrl": "",
+      "primaryLanguage": "C#",
+      "topics": []
+    },
+    {
+      "name": "quix",
+      "description": "quix app - bank account & pix simulator",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/quix",
+      "homepageUrl": "",
+      "primaryLanguage": "TypeScript",
+      "topics": []
+    },
+    {
+      "name": "java-microservices-rabbit-pg",
+      "description": "microservices-rabbit-pg",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/java-microservices-rabbit-pg",
+      "homepageUrl": "",
+      "primaryLanguage": "Java",
+      "topics": []
+    },
+    {
+      "name": "node-games",
+      "description": "interview challenge",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/node-games",
+      "homepageUrl": "",
+      "primaryLanguage": "TypeScript",
+      "topics": []
+    },
+    {
+      "name": "CleanArch",
+      "description": "My Clean Architecture",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/CleanArch",
+      "homepageUrl": "",
+      "primaryLanguage": "C#",
+      "topics": []
+    },
+    {
+      "name": "dotenvy",
+      "description": "PHP Environment Variables Manager with dotenv (.env) files and validation by example",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/dotenvy",
+      "homepageUrl": "",
+      "primaryLanguage": "PHP",
+      "topics": []
+    },
+    {
+      "name": "jsengine",
+      "description": "javascript template engine based on javascript tagged strings",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/jsengine",
+      "homepageUrl": "",
+      "primaryLanguage": "JavaScript",
+      "topics": []
+    },
+    {
+      "name": "dotenvyjs",
+      "description": "Another NodeJs .env manager with validation by example",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/dotenvyjs",
+      "homepageUrl": "",
+      "primaryLanguage": "TypeScript",
+      "topics": []
+    },
+    {
+      "name": "solid",
+      "description": "solid template",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/solid",
+      "homepageUrl": "",
+      "primaryLanguage": "TypeScript",
+      "topics": []
+    },
+    {
+      "name": "node-ci5tox",
+      "description": "Created with StackBlitz ⚡️",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/node-ci5tox",
+      "homepageUrl": "https://stackblitz.com/edit/node-ci5tox",
+      "primaryLanguage": "JavaScript",
+      "topics": []
+    },
+    {
+      "name": "mvcexpress",
+      "description": "A middleware for express/node.js that \"mvcify\" a mount path.",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/mvcexpress",
+      "homepageUrl": "",
+      "primaryLanguage": "JavaScript",
+      "topics": []
+    },
+    {
+      "name": "spa-templates",
+      "description": "Repositorio de Templates para spa",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/spa-templates",
+      "homepageUrl": "",
+      "primaryLanguage": "JavaScript",
+      "topics": []
+    },
+    {
+      "name": "locker",
+      "description": "PHP synchronization based on file locking",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/locker",
+      "homepageUrl": "",
+      "primaryLanguage": "PHP",
+      "topics": []
+    },
+    {
+      "name": "csvworker",
+      "description": "A custom tool for mapping and transforming CSV files",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/csvworker",
+      "homepageUrl": "",
+      "primaryLanguage": "PHP",
+      "topics": []
+    },
+    {
+      "name": "sessionstore",
+      "description": "nodejs simple session store as middleware",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/sessionstore",
+      "homepageUrl": "",
+      "primaryLanguage": "JavaScript",
+      "topics": []
+    },
+    {
+      "name": "apper",
+      "description": "app maker",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/apper",
+      "homepageUrl": "",
+      "primaryLanguage": null,
+      "topics": []
+    },
+    {
+      "name": "router",
+      "description": "javascript vanilla router",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/router",
+      "homepageUrl": "",
+      "primaryLanguage": null,
+      "topics": []
+    },
+    {
+      "name": "minispa",
+      "description": "Mini Spa infrastructure with knockout js, moment, toastr, bootstrap, jquery, custom router",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/minispa",
+      "homepageUrl": "",
+      "primaryLanguage": "JavaScript",
+      "topics": []
+    },
+    {
+      "name": "BlogPosts",
+      "description": "Blog Posts",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/BlogPosts",
+      "homepageUrl": "",
+      "primaryLanguage": "C#",
+      "topics": []
+    },
+    {
+      "name": "MvcLib.MyGet",
+      "description": "Repository to build MvcLib Nuget Package",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/MvcLib.MyGet",
+      "homepageUrl": "",
+      "primaryLanguage": "C#",
+      "topics": []
+    },
+    {
+      "name": "TrabFilme",
+      "description": "Trabalho Java, Eclipse, Swing, MySQL",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/TrabFilme",
+      "homepageUrl": "",
+      "primaryLanguage": "Java",
+      "topics": []
+    },
+    {
+      "name": "TrabFilmePHP",
+      "description": "TrabFilmePHP",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/TrabFilmePHP",
+      "homepageUrl": "",
+      "primaryLanguage": "PHP",
+      "topics": []
+    }
+  ]
 }
