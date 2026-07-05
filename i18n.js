@@ -74,6 +74,9 @@ function updateMetaTags() {
 
   const twDesc = document.querySelector('meta[name="twitter:description"]');
   if (twDesc) twDesc.setAttribute('content', window.t('meta.ogDescription'));
+
+  const keywords = document.querySelector('meta[name="keywords"]');
+  if (keywords) keywords.setAttribute('content', window.t('meta.keywords'));
 }
 
 // ─── Apply translations to DOM ──────────────────────────────
@@ -146,7 +149,7 @@ window.currentLang  = () => currentLang;
 // ─── Init ───────────────────────────────────────────────────
 async function initI18n() {
   try {
-    const resp = await fetch('translations.json?v=1.6');
+    const resp = await fetch('translations.json?v=1.7');
     if (resp.ok) translations = await resp.json();
   } catch (e) {
     console.warn('i18n: could not load translations.json', e);

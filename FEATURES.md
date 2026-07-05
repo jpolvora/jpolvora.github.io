@@ -38,6 +38,7 @@ Este documento lista e descreve todas as funcionalidades, otimizações e integr
 
 ### 6. Otimização para Google SEO
 - **Structured Data JSON-LD (Schema.org)**: Objeto de marcação estruturada `Person` embutido no HTML contendo cargos, URLs, mídias sociais e competências para enriquecer o snippet de busca do Google.
+- **Metadados de Tecnologias (LinkedIn)**: Lista SEO de ~45 competências em `meta keywords` (pt/en/es via i18n) e `knowsAbout` no JSON-LD — IA/Agentic, .NET/C#, Node/TS, React/Angular, Azure/DevOps, microservices, DDD/SOLID/Clean Architecture e bancos de dados — alinhada ao perfil LinkedIn.
 - **Meta Tags Avançadas**: Inclusão de tags Open Graph e Twitter Cards para formatação de cards de pré-visualização ao compartilhar o link.
 - **Sitemap & Robots.txt**: Arquivos `sitemap.xml` para indexação completa e `robots.txt` orientando mecanismos de busca.
 - **URL Canônica e Favicon**: Tags configuradas apontando para o link principal e usando o avatar de perfil como favicon padrão.
