@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-04T23:02:02.131Z",
+  "updatedAt": "2026-07-05T00:15:54.564Z",
   "stats": {
     "totalRepos": 37,
     "totalStars": 7,
@@ -18,7 +18,7 @@
       "description": "MEFedIoC is a project that contains extension methods that will allows you to use MEF as an IoC container.",
       "stargazerCount": 2,
       "url": "https://github.com/jpolvora/MEFedIoC",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": null,
       "topics": []
     },
@@ -27,7 +27,7 @@
       "description": "buildable vanilla knockout navigo parcel build template",
       "stargazerCount": 1,
       "url": "https://github.com/jpolvora/spa-parcel",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "JavaScript",
       "topics": [
         "parcel-bundler",
@@ -49,7 +49,7 @@
       "description": "Integração customizada com o PagSeguro",
       "stargazerCount": 1,
       "url": "https://github.com/jpolvora/pagsegurokit",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "C#",
       "topics": []
     },
@@ -58,7 +58,7 @@
       "description": "Metavision Ultralight Container is a simple and faster IoC/DI Container.",
       "stargazerCount": 1,
       "url": "https://github.com/jpolvora/Metavision.UltraLight",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": null,
       "topics": []
     },
@@ -67,7 +67,7 @@
       "description": "My AMD's for Durandal and Breeze",
       "stargazerCount": 1,
       "url": "https://github.com/jpolvora/DuranBreez",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "JavaScript",
       "topics": []
     },
@@ -76,7 +76,7 @@
       "description": "My code from Blog Posts",
       "stargazerCount": 1,
       "url": "https://github.com/jpolvora/jpolvora.Posts",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "C#",
       "topics": []
     },
@@ -85,7 +85,7 @@
       "description": "multi profile cursor user-data-dir desktop manager scripts powershell winforms",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/cursor-profile-manager",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "PowerShell",
       "topics": []
     },
@@ -94,7 +94,7 @@
       "description": "Multi Agent Code Reviewer",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/agentic-code-reviewers",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "TypeScript",
       "topics": []
     },
@@ -103,7 +103,7 @@
       "description": "cursor-reviewer-demo-project that runs cursor-reviewer on PR actions ",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/cursor-reviewer-demo-project",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "C#",
       "topics": []
     },
@@ -112,7 +112,7 @@
       "description": "agentic pipeline code reviewr using cursor-sdk",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/cursor-reviewer",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "TypeScript",
       "topics": []
     },
@@ -121,7 +121,7 @@
       "description": "# 📔 NoteVault - The Secure, Fluent Developer Notepad",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/notevault",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "TypeScript",
       "topics": []
     },
@@ -130,7 +130,7 @@
       "description": "🚀 Pejotinha v4 - Freelancer Dashboard & Proof of Work",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/pejotinha-v4",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "JavaScript",
       "topics": []
     },
@@ -156,7 +156,7 @@
       "description": "Simple yet powerful .NET Feature Flag Management Library based on Microsoft.FeatureManagement",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/FlagSharp",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "C#",
       "topics": []
     },
@@ -165,7 +165,7 @@
       "description": "Demo project demonstrating MongoDB, RabbitMQ, Swagger, Docker, StarWars API (swapi.dev)",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/StartWars",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "JavaScript",
       "topics": [
         "docker",
@@ -181,7 +181,7 @@
       "description": "Calculates Family Score for Buying Own Home ",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/FamilyRegistration",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "C#",
       "topics": []
     },
@@ -190,7 +190,7 @@
       "description": "quix app - bank account & pix simulator",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/quix",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "TypeScript",
       "topics": []
     },
@@ -199,7 +199,7 @@
       "description": "microservices-rabbit-pg",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/java-microservices-rabbit-pg",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "Java",
       "topics": []
     },
@@ -208,7 +208,7 @@
       "description": "interview challenge",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/node-games",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "TypeScript",
       "topics": []
     },
@@ -217,7 +217,7 @@
       "description": "My Clean Architecture",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/CleanArch",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "C#",
       "topics": []
     },
@@ -226,7 +226,7 @@
       "description": "PHP Environment Variables Manager with dotenv (.env) files and validation by example",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/dotenvy",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "PHP",
       "topics": []
     },
@@ -235,7 +235,7 @@
       "description": "javascript template engine based on javascript tagged strings",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/jsengine",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "JavaScript",
       "topics": []
     },
@@ -244,7 +244,7 @@
       "description": "Another NodeJs .env manager with validation by example",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/dotenvyjs",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "TypeScript",
       "topics": []
     },
@@ -253,7 +253,7 @@
       "description": "solid template",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/solid",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "TypeScript",
       "topics": []
     },
@@ -271,7 +271,7 @@
       "description": "A middleware for express/node.js that \"mvcify\" a mount path.",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/mvcexpress",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "JavaScript",
       "topics": []
     },
@@ -280,7 +280,7 @@
       "description": "Repositorio de Templates para spa",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/spa-templates",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "JavaScript",
       "topics": []
     },
@@ -289,7 +289,7 @@
       "description": "PHP synchronization based on file locking",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/locker",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "PHP",
       "topics": []
     },
@@ -298,7 +298,7 @@
       "description": "A custom tool for mapping and transforming CSV files",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/csvworker",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "PHP",
       "topics": []
     },
@@ -307,7 +307,7 @@
       "description": "nodejs simple session store as middleware",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/sessionstore",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "JavaScript",
       "topics": []
     },
@@ -316,7 +316,7 @@
       "description": "app maker",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/apper",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": null,
       "topics": []
     },
@@ -325,7 +325,7 @@
       "description": "javascript vanilla router",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/router",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": null,
       "topics": []
     },
@@ -334,7 +334,7 @@
       "description": "Mini Spa infrastructure with knockout js, moment, toastr, bootstrap, jquery, custom router",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/minispa",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "JavaScript",
       "topics": []
     },
@@ -343,7 +343,7 @@
       "description": "Blog Posts",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/BlogPosts",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "C#",
       "topics": []
     },
@@ -352,7 +352,7 @@
       "description": "Repository to build MvcLib Nuget Package",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/MvcLib.MyGet",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "C#",
       "topics": []
     },
@@ -361,7 +361,7 @@
       "description": "Trabalho Java, Eclipse, Swing, MySQL",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/TrabFilme",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "Java",
       "topics": []
     },
@@ -370,7 +370,7 @@
       "description": "TrabFilmePHP",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/TrabFilmePHP",
-      "homepageUrl": "",
+      "homepageUrl": null,
       "primaryLanguage": "PHP",
       "topics": []
     }
