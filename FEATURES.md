@@ -11,6 +11,7 @@ Este documento lista e descreve todas as funcionalidades, otimizações e integr
 - **Tema Dark-Minimalist**: Paleta baseada em tons escuros de Slate/Gray com gradientes de Indigo/Purple.
 - **Tipografia Moderna**: Fontes `Outfit` (para títulos e destaque) e `Plus Jakarta Sans` (para corpo e leitura fluida) via Google Fonts.
 - **Cards com Glassmorphism**: Bordas semitransparentes, sombras suaves e efeito de desfoque de fundo (`backdrop-filter`) para uma estética moderna de alta qualidade.
+- **Seção de Foco Ativo (Pinned Repos)**: Um grid destacado no topo exibindo os repositórios fixados do GitHub, com estilo premium glassmorphism, gradientes e indicador de status pulsante.
 - **Efeitos de Hover Dinâmicos**: Micro-animações e glows aplicados nos links de navegação, cards de projetos, botões de ação e tags.
 
 ### 2. Navegação Inteligente e Interativa
@@ -21,6 +22,7 @@ Este documento lista e descreve todas as funcionalidades, otimizações e integr
 
 ### 3. Showcase Dinâmico de Projetos
 - **Integração Assíncrona via JSON**: Projetos carregados dinamicamente via JavaScript client-side a partir do arquivo `projects.json`.
+- **Destaque de Foco Ativo**: Seção dedicada no topo que enfatiza os projetos prioritários atuais (repositórios fixados) e se oculta automaticamente durante buscas ou filtragens por tecnologia.
 - **Busca em Tempo Real**: Filtro de pesquisa de texto instantâneo que varre títulos e descrições dos repositórios.
 - **Badges de Tecnologias (Filtros)**: Geração dinâmica de tags de linguagem de programação. Clicar em uma tag isola instantaneamente os projetos daquela tecnologia.
 - **Métricas de Engajamento**: Exibição da contagem de estrelas de repositórios relevantes com ícones estilizados.
@@ -47,10 +49,10 @@ Este documento lista e descreve todas as funcionalidades, otimizações e integr
 - **Cache-Busting**: Parâmetros de versão (`?v=1.2`) indexados aos scripts e estilos para evitar carregamento de visual quebrado por cache de navegador antigo.
 - **Deploy GitHub Pages (legacy)**: Publicação automática a partir da branch `main` (`.nojekyll` garante servir HTML/CSS/JS estático sem Jekyll). Evita conflito com workflow Actions duplicado.
 - **Script de Automação (`update.js`)**: Script integrado no Node (`npm run update`) que:
-  - Scaneia a conta do usuário usando a CLI do GitHub.
-  - Filtra forks inativos e repositórios sem descrição.
-  - Atualiza o cache do `projects.json`.
-  - Abre uma Pull Request na branch de atualização para validação dos dados antes de ir ao ar.
+  - Scaneia a conta do usuário usando a CLI do GitHub (agora incluindo consulta GraphQL `gh api graphql` para os repositórios fixados).
+  - Filtra forks inativos e repositórios sem descrição, além de remover o próprio repositório do portfólio de ambas as listas.
+  - Atualiza o cache do `projects.json` com `projects` e `pinnedProjects`.
+  - Abre uma Pull Request na branch de atualização para validação dos dados antes de ir ao ar (ou comita diretamente se `--skip-pr` for usado).
 
 ### 8. Internacionalização (i18n)
 - **Três idiomas**: Português (pt-BR, padrão), Inglês (en) e Espanhol (es).
