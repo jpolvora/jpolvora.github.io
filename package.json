@@ -5,7 +5,8 @@
   "type": "module",
   "main": "update.js",
   "scripts": {
-    "update": "node update.js"
+    "update": "node update.js",
+    "sync": "node update.js --skip-pr"
   },
   "keywords": [
     "portfolio",

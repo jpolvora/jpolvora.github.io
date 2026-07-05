@@ -2,172 +2,284 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
-// Configurations
-const USERNAME = 'jpolvora';
+// ─────────────────────────────────────────────
+//  Configuration
+// ─────────────────────────────────────────────
+const USERNAME       = 'jpolvora';
 const PORTFOLIO_REPO = 'jpolvora.github.io';
-const PROJECTS_FILE = './projects.json';
+const PROJECTS_FILE  = './projects.json';
+const SITEMAP_FILE   = './sitemap.xml';
+const FEATURES_FILE  = './FEATURES.md';
 
-// Helper to run shell commands and return output
+// CLI flag: run with  --skip-pr  to commit directly to current branch
+const SKIP_PR = process.argv.includes('--skip-pr');
+
+// ─────────────────────────────────────────────
+//  Helpers
+// ─────────────────────────────────────────────
 function run(cmd, options = {}) {
   try {
     return execSync(cmd, { encoding: 'utf8', ...options }).trim();
   } catch (error) {
-    console.error(`Error running command: ${cmd}`);
+    console.error(`\n❌  Error running: ${cmd}`);
     console.error(error.message);
     throw error;
   }
 }
 
-async function main() {
-  console.log('🤖 Starting portfolio projects scan...');
+function todayISO() {
+  return new Date().toISOString().split('T')[0]; // e.g. "2026-07-05"
+}
 
-  // 1. Fetch repositories using GitHub CLI
+// ─────────────────────────────────────────────
+//  Step 1 – Fetch repositories via GitHub CLI
+// ─────────────────────────────────────────────
+async function fetchRepos() {
+  const fields = 'name,description,stargazerCount,url,isFork,updatedAt,homepageUrl,primaryLanguage,repositoryTopics';
+  const cmd    = `gh repo list ${USERNAME} --public --limit 150 --json ${fields}`;
+  console.log(`\n📡  Fetching repositories…\n    ${cmd}`);
+
   let reposJson;
   try {
-    const fields = 'name,description,stargazerCount,url,isFork,updatedAt,homepageUrl,primaryLanguage,repositoryTopics';
-    const cmd = `gh repo list ${USERNAME} --public --limit 150 --json ${fields}`;
-    console.log(`📡 Fetching repositories from GitHub: ${cmd}`);
     reposJson = run(cmd);
-  } catch (err) {
-    console.error('❌ Failed to fetch repositories. Make sure you are authenticated with GitHub CLI (`gh auth status`).');
+  } catch {
+    console.error('❌  Failed to fetch repositories.  Make sure `gh auth status` is OK.');
     process.exit(1);
   }
 
   const repos = JSON.parse(reposJson);
-  console.log(`🔍 Found ${repos.length} public repositories.`);
+  console.log(`🔍  Found ${repos.length} public repositories.`);
+  return repos;
+}
 
-  // 2. Filter and Sort repositories
-  // - Exclude the portfolio repository itself
-  // - Exclude forks unless they have stars (indicates contribution/importance)
-  // - Exclude repositories without descriptions (unless they have stars > 0)
-  const filteredProjects = repos.filter(repo => {
-    if (repo.name.toLowerCase() === PORTFOLIO_REPO.toLowerCase()) {
-      return false; // Skip portfolio itself
-    }
-    if (repo.isFork && repo.stargazerCount === 0) {
-      return false; // Skip unstarred forks
-    }
-    if (!repo.description && repo.stargazerCount === 0) {
-      return false; // Skip empty description projects unless starred
-    }
+// ─────────────────────────────────────────────
+//  Step 2 – Filter & sort
+// ─────────────────────────────────────────────
+function filterAndSort(repos) {
+  const filtered = repos.filter(repo => {
+    if (repo.name.toLowerCase() === PORTFOLIO_REPO.toLowerCase()) return false;
+    if (repo.isFork && repo.stargazerCount === 0)                  return false;
+    if (!repo.description && repo.stargazerCount === 0)            return false;
     return true;
   });
 
-  // Sort by stars descending, then by updatedAt descending
-  filteredProjects.sort((a, b) => {
-    if (b.stargazerCount !== a.stargazerCount) {
-      return b.stargazerCount - a.stargazerCount;
-    }
+  filtered.sort((a, b) => {
+    if (b.stargazerCount !== a.stargazerCount) return b.stargazerCount - a.stargazerCount;
     return new Date(b.updatedAt) - new Date(a.updatedAt);
   });
 
-  console.log(`✨ Selected ${filteredProjects.length} projects to feature in the portfolio.`);
+  console.log(`✨  Selected ${filtered.length} projects for the portfolio.`);
+  return filtered;
+}
 
-  // 3. Aggregate stats (Stars and Language distribution)
+// ─────────────────────────────────────────────
+//  Step 3 – Aggregate stats
+// ─────────────────────────────────────────────
+function buildStats(projects) {
   let totalStars = 0;
   const languageCounts = {};
 
-  filteredProjects.forEach(repo => {
+  projects.forEach(repo => {
     totalStars += repo.stargazerCount;
+
     if (repo.primaryLanguage) {
-      const lang = repo.primaryLanguage.name || repo.primaryLanguage;
-      // Normalizing format since CLI output format might vary (object with name, or string)
-      const langName = typeof lang === 'object' ? lang.name : lang;
-      
-      if (langName) {
-        languageCounts[langName] = (languageCounts[langName] || 0) + 1;
-        // Inject key name for simplicity in client-side loading
-        repo.primaryLanguage = langName;
+      const raw  = repo.primaryLanguage;
+      const name = typeof raw === 'object' ? (raw.name || '') : raw;
+      if (name) {
+        languageCounts[name] = (languageCounts[name] || 0) + 1;
+        repo.primaryLanguage = name;  // normalise to string
       }
     } else {
       repo.primaryLanguage = null;
     }
   });
 
-  // Calculate language percentages
   const totalLangs = Object.values(languageCounts).reduce((a, b) => a + b, 0);
   const languagesPercent = {};
   if (totalLangs > 0) {
     Object.entries(languageCounts).forEach(([lang, count]) => {
-      const percentage = ((count / totalLangs) * 100).toFixed(1);
-      languagesPercent[lang] = parseFloat(percentage);
+      languagesPercent[lang] = parseFloat(((count / totalLangs) * 100).toFixed(1));
     });
   }
 
-  // Format the output structure
-  const outputData = {
+  return { totalStars, languagesPercent };
+}
+
+// ─────────────────────────────────────────────
+//  Step 4 – Write projects.json
+// ─────────────────────────────────────────────
+function writeProjectsJson(projects, stats) {
+  const { totalStars, languagesPercent } = stats;
+
+  const output = {
     updatedAt: new Date().toISOString(),
     stats: {
-      totalRepos: filteredProjects.length,
-      totalStars: totalStars,
+      totalRepos: projects.length,
+      totalStars,
       languages: languagesPercent
     },
-    projects: filteredProjects.map(repo => ({
-      name: repo.name,
-      description: repo.description,
-      stargazerCount: repo.stargazerCount,
-      url: repo.url,
-      homepageUrl: repo.homepageUrl,
+    projects: projects.map(repo => ({
+      name:            repo.name,
+      description:     repo.description,
+      stargazerCount:  repo.stargazerCount,
+      url:             repo.url,
+      homepageUrl:     repo.homepageUrl  || null,
       primaryLanguage: repo.primaryLanguage,
-      topics: repo.repositoryTopics ? repo.repositoryTopics.map(t => t.name || t) : []
+      topics:          repo.repositoryTopics
+                         ? repo.repositoryTopics.map(t => t.name || t)
+                         : []
     }))
   };
 
-  // 4. Save to projects.json
-  fs.writeFileSync(PROJECTS_FILE, JSON.stringify(outputData, null, 2), 'utf8');
-  console.log(`💾 Saved updated project data to ${PROJECTS_FILE}`);
+  fs.writeFileSync(PROJECTS_FILE, JSON.stringify(output, null, 2), 'utf8');
+  console.log(`💾  Saved ${PROJECTS_FILE}`);
+  return output;
+}
 
-  // 5. Git and Pull Request Automation Flow
-  console.log('🔄 Checking for repository changes...');
+// ─────────────────────────────────────────────
+//  Step 5 – Update sitemap.xml <lastmod>
+// ─────────────────────────────────────────────
+function updateSitemap() {
+  if (!fs.existsSync(SITEMAP_FILE)) {
+    console.warn(`⚠️   ${SITEMAP_FILE} not found – skipping.`);
+    return false;
+  }
+
+  const today   = todayISO();
+  let   content = fs.readFileSync(SITEMAP_FILE, 'utf8');
+  const updated = content.replace(/<lastmod>[^<]+<\/lastmod>/, `<lastmod>${today}</lastmod>`);
+
+  if (updated === content) {
+    console.log(`ℹ️   Sitemap <lastmod> is already ${today}.`);
+    return false;
+  }
+
+  fs.writeFileSync(SITEMAP_FILE, updated, 'utf8');
+  console.log(`🗺️   Updated sitemap <lastmod> → ${today}`);
+  return true;
+}
+
+// ─────────────────────────────────────────────
+//  Step 6 – Stamp FEATURES.md last-updated line
+// ─────────────────────────────────────────────
+function stampFeaturesDoc() {
+  if (!fs.existsSync(FEATURES_FILE)) {
+    console.warn(`⚠️   ${FEATURES_FILE} not found – skipping.`);
+    return false;
+  }
+
+  const today   = todayISO();
+  let   content = fs.readFileSync(FEATURES_FILE, 'utf8');
+
+  // Replace or append a  "<!-- last-updated: YYYY-MM-DD -->"  marker
+  const marker  = /<!--\s*last-updated:\s*[\d-]+\s*-->/;
+  const stamp   = `<!-- last-updated: ${today} -->`;
+
+  let updated;
+  if (marker.test(content)) {
+    updated = content.replace(marker, stamp);
+  } else {
+    // Append on the second line (right after the H1 title)
+    const lines = content.split('\n');
+    lines.splice(1, 0, stamp);
+    updated = lines.join('\n');
+  }
+
+  if (updated === content) {
+    console.log(`ℹ️   FEATURES.md stamp is already ${today}.`);
+    return false;
+  }
+
+  fs.writeFileSync(FEATURES_FILE, updated, 'utf8');
+  console.log(`📄  Stamped FEATURES.md with last-updated: ${today}`);
+  return true;
+}
+
+// ─────────────────────────────────────────────
+//  Step 7 – Git & PR flow
+// ─────────────────────────────────────────────
+async function gitFlow() {
+  console.log('\n🔄  Checking git status…');
+
   const gitStatus = run('git status --porcelain');
-  
-  if (!gitStatus.includes('projects.json')) {
-    console.log('✅ No changes in projects.json. Portfolio is already up to date!');
+
+  // Detect which tracked files changed
+  const changedFiles = [PROJECTS_FILE, SITEMAP_FILE, FEATURES_FILE]
+    .filter(f => gitStatus.includes(path.basename(f)));
+
+  if (changedFiles.length === 0) {
+    console.log('✅  Nothing changed – portfolio is already up to date!');
     return;
   }
 
-  console.log('📝 Changes detected in projects.json. Preparing Pull Request...');
+  console.log(`📝  Changed files: ${changedFiles.join(', ')}`);
 
-  try {
-    // Check if we are inside a Git repository
-    run('git rev-parse --is-inside-work-tree');
-  } catch (err) {
-    console.log('ℹ️ Local git repository not fully configured yet. Skipping PR creation.');
-    return;
-  }
+  // Verify we are inside a git repo
+  try { run('git rev-parse --is-inside-work-tree'); }
+  catch { console.warn('⚠️   Not inside a git repo – skipping git workflow.'); return; }
 
-  const timestamp = new Date().toISOString().replace(/T/, '-').replace(/\..+/, '').replace(/:/g, '-');
-  const branchName = `update-portfolio-${timestamp}`;
+  const currentBranch = run('git branch --show-current') || 'main';
+  const stagingFiles  = changedFiles.join(' ');
 
-  try {
-    // Get the current active branch name
-    const currentBranch = run('git branch --show-current') || 'main';
+  if (SKIP_PR) {
+    // ── Direct commit to current branch ──────────────────────────────────
+    console.log(`\n📌  --skip-pr flag detected. Committing directly to '${currentBranch}'…`);
+    run(`git add ${stagingFiles}`);
+    run('git commit -m "auto: sync projects, sitemap and features docs"');
+    run(`git push origin ${currentBranch}`);
+    console.log('🚀  Pushed to origin. GitHub Actions will deploy automatically.');
+  } else {
+    // ── PR-based flow (default) ────────────────────────────────────────────
+    const timestamp  = new Date().toISOString().replace(/[:.]/g, '-').replace('T', '_').slice(0, 19);
+    const branchName = `auto/update-portfolio-${timestamp}`;
 
-    console.log(`🌿 Creating new branch: ${branchName}`);
+    console.log(`\n🌿  Creating branch: ${branchName}`);
     run(`git checkout -b ${branchName}`);
 
-    console.log('➕ Staging projects.json...');
-    run(`git add ${PROJECTS_FILE}`);
+    run(`git add ${stagingFiles}`);
+    run('git commit -m "auto: update portfolio projects, sitemap and features docs"');
 
-    console.log('💾 Committing changes...');
-    run('git commit -m "auto: update portfolio projects and stats"');
-
-    console.log(`📤 Pushing branch ${branchName} to origin...`);
+    console.log(`📤  Pushing ${branchName}…`);
     run(`git push -u origin ${branchName}`);
 
-    console.log('📬 Creating Pull Request on GitHub...');
-    const prBody = `This is an automated pull request to update the portfolio page projects data and technology stats.\n\nGenerated on: ${new Date().toLocaleString()}`;
-    const prCommand = `gh pr create --title "Update Portfolio Projects (${timestamp})" --body "${prBody}" --head ${branchName} --base ${currentBranch}`;
-    const prUrl = run(prCommand);
-    
-    console.log(`🎉 Pull Request created successfully! Link: ${prUrl}`);
+    const prBody    = [
+      '## Automated Portfolio Update',
+      '',
+      `Generated: ${new Date().toLocaleString('pt-BR')}`,
+      '',
+      '### Changed files',
+      ...changedFiles.map(f => `- \`${path.basename(f)}\``),
+      '',
+      '> Review and merge to publish to GitHub Pages.'
+    ].join('\n');
 
-    console.log(`🔄 Switching back to original branch (${currentBranch})...`);
+    const prCommand = `gh pr create --title "Portfolio auto-update (${timestamp})" --body "${prBody.replace(/"/g, "'")}" --head ${branchName} --base ${currentBranch}`;
+    const prUrl     = run(prCommand);
+
+    console.log(`🎉  Pull Request created: ${prUrl}`);
+
     run(`git checkout ${currentBranch}`);
-  } catch (gitErr) {
-    console.error('❌ Error executing git workflow:', gitErr.message);
-    console.log('⚠️ Please review your branch status and try running git operations manually.');
+    console.log(`↩️   Switched back to '${currentBranch}'.`);
   }
+}
+
+// ─────────────────────────────────────────────
+//  Main
+// ─────────────────────────────────────────────
+async function main() {
+  console.log('═══════════════════════════════════════════');
+  console.log('  🤖  Jone Polvora Portfolio Auto-Updater  ');
+  console.log('═══════════════════════════════════════════');
+
+  const repos    = await fetchRepos();
+  const projects = filterAndSort(repos);
+  const stats    = buildStats(projects);
+  writeProjectsJson(projects, stats);
+  updateSitemap();
+  stampFeaturesDoc();
+  await gitFlow();
+
+  console.log('\n✅  Done!\n');
 }
 
 main();
