@@ -149,7 +149,7 @@ window.currentLang  = () => currentLang;
 // ─── Init ───────────────────────────────────────────────────
 async function initI18n() {
   try {
-    const resp = await fetch('translations.json?v=1.7');
+    const resp = await fetch('translations.json?v=1.8');
     if (resp.ok) translations = await resp.json();
   } catch (e) {
     console.warn('i18n: could not load translations.json', e);

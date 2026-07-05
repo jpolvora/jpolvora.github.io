@@ -53,6 +53,66 @@ async function fetchRepos() {
 }
 
 // ─────────────────────────────────────────────
+//  Step 1b – Fetch pinned repositories via GraphQL
+// ─────────────────────────────────────────────
+async function fetchPinnedRepos() {
+  const query = `query($login: String!) {
+    user(login: $login) {
+      pinnedItems(first: 6, types: REPOSITORY) {
+        nodes {
+          ... on Repository {
+            name
+            description
+            stargazerCount
+            url
+            homepageUrl
+            primaryLanguage {
+              name
+            }
+            repositoryTopics(first: 10) {
+              nodes {
+                topic {
+                  name
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }`;
+
+  const cmd = `gh api graphql -f query="${query.replace(/\n/g, ' ')}" -F login="${USERNAME}"`;
+  console.log(`\n📌  Fetching pinned repositories…\n    ${cmd}`);
+
+  let resultJson;
+  try {
+    resultJson = run(cmd);
+  } catch (error) {
+    console.error('❌  Failed to fetch pinned repositories:', error.message);
+    return [];
+  }
+
+  try {
+    const data = JSON.parse(resultJson);
+    const nodes = data.data?.user?.pinnedItems?.nodes || [];
+    console.log(`🔍  Found ${nodes.length} pinned repositories.`);
+    return nodes.map(node => ({
+      name: node.name,
+      description: node.description || '',
+      stargazerCount: node.stargazerCount || 0,
+      url: node.url,
+      homepageUrl: node.homepageUrl || null,
+      primaryLanguage: node.primaryLanguage ? node.primaryLanguage.name : null,
+      topics: node.repositoryTopics?.nodes ? node.repositoryTopics.nodes.map(n => n.topic.name) : []
+    }));
+  } catch (error) {
+    console.error('❌  Failed to parse pinned repositories JSON:', error.message);
+    return [];
+  }
+}
+
+// ─────────────────────────────────────────────
 //  Step 2 – Filter & sort
 // ─────────────────────────────────────────────
 function filterAndSort(repos) {
@@ -108,7 +168,7 @@ function buildStats(projects) {
 // ─────────────────────────────────────────────
 //  Step 4 – Write projects.json
 // ─────────────────────────────────────────────
-function writeProjectsJson(projects, stats) {
+function writeProjectsJson(projects, stats, pinnedProjects = []) {
   const { totalStars, languagesPercent } = stats;
 
   const output = {
@@ -118,6 +178,15 @@ function writeProjectsJson(projects, stats) {
       totalStars,
       languages: languagesPercent
     },
+    pinnedProjects: pinnedProjects.map(repo => ({
+      name:            repo.name,
+      description:     repo.description,
+      stargazerCount:  repo.stargazerCount,
+      url:             repo.url,
+      homepageUrl:     repo.homepageUrl  || null,
+      primaryLanguage: repo.primaryLanguage,
+      topics:          repo.topics || []
+    })),
     projects: projects.map(repo => ({
       name:            repo.name,
       description:     repo.description,
@@ -271,10 +340,13 @@ async function main() {
   console.log('  🤖  Jone Polvora Portfolio Auto-Updater  ');
   console.log('═══════════════════════════════════════════');
 
-  const repos    = await fetchRepos();
-  const projects = filterAndSort(repos);
-  const stats    = buildStats(projects);
-  writeProjectsJson(projects, stats);
+  const repos          = await fetchRepos();
+  const projects       = filterAndSort(repos);
+  const stats          = buildStats(projects);
+  const rawPinned      = await fetchPinnedRepos();
+  const pinnedProjects = rawPinned.filter(repo => repo.name.toLowerCase() !== PORTFOLIO_REPO.toLowerCase());
+
+  writeProjectsJson(projects, stats, pinnedProjects);
   updateSitemap();
   stampFeaturesDoc();
   await gitFlow();

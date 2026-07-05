@@ -22,6 +22,7 @@ const LANGUAGE_COLORS = {
 const DEFAULT_LANG_COLOR = '#6b7280';
 
 let state = {
+  pinnedProjects: [],
   projects: [],
   filteredProjects: [],
   stats: {},
@@ -39,6 +40,8 @@ const languagesBox = document.getElementById('languages-box');
 const languagesBar = document.getElementById('languages-bar-container');
 const languagesLegend = document.getElementById('languages-legend-container');
 const lastUpdatedDate = document.getElementById('last-updated-date');
+const currentFocusSection = document.getElementById('current-focus');
+const currentFocusGrid = document.getElementById('current-focus-grid');
 
 function translate(key) {
   return typeof window.t === 'function' ? window.t(key) : key;
@@ -62,6 +65,7 @@ if (document.readyState === 'loading') {
 window.addEventListener('i18n:changed', () => {
   renderStats();
   renderFilters();
+  renderPinnedProjects();
   renderProjects();
 });
 
@@ -73,6 +77,7 @@ async function fetchProjectsData() {
     }
     const data = await response.json();
 
+    state.pinnedProjects = data.pinnedProjects || [];
     state.projects = data.projects || [];
     state.filteredProjects = [...state.projects];
     state.stats = data.stats || { totalRepos: 0, totalStars: 0, languages: {} };
@@ -80,6 +85,7 @@ async function fetchProjectsData() {
 
     renderStats();
     renderFilters();
+    renderPinnedProjects();
     renderProjects();
   } catch (error) {
     console.error('Erro ao carregar dados:', error);
@@ -199,6 +205,7 @@ function filterAndRenderProjects() {
     return matchesSearch && matchesFilter;
   });
 
+  renderPinnedProjects();
   renderProjects();
 }
 
@@ -272,6 +279,89 @@ function renderProjects() {
     `;
 
     projectsGrid.appendChild(card);
+  });
+}
+
+function renderPinnedProjects() {
+  if (!currentFocusGrid) return;
+  currentFocusGrid.innerHTML = '';
+
+  const hasPinned = state.pinnedProjects && state.pinnedProjects.length > 0;
+  const isFiltering = state.activeFilter !== 'All' || state.searchQuery !== '';
+
+  if (!hasPinned || isFiltering) {
+    currentFocusSection.style.display = 'none';
+    return;
+  }
+
+  currentFocusSection.style.display = 'block';
+
+  state.pinnedProjects.forEach(project => {
+    const card = document.createElement('article');
+    card.className = 'project-card featured';
+
+    const langColor = LANGUAGE_COLORS[project.primaryLanguage] || DEFAULT_LANG_COLOR;
+    const descText = project.description || translate('projects.noDesc');
+
+    const starsElement = project.stargazerCount > 0
+      ? `<span class="project-star" title="Stargazers">
+           <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+           ${project.stargazerCount}
+         </span>`
+      : '';
+
+    const focusBadgeHtml = `
+      <span class="focus-badge">
+        <span class="focus-dot"></span>
+        ${translate('projects.activeFocus')}
+      </span>
+    `;
+
+    let linksHtml = `
+      <a href="${project.url}" class="project-link" target="_blank" rel="noopener noreferrer" title="${translate('projects.viewRepo')}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+        </svg>
+      </a>
+    `;
+
+    if (project.homepageUrl) {
+      linksHtml += `
+        <a href="${project.homepageUrl}" class="project-link" target="_blank" rel="noopener noreferrer" title="${translate('projects.viewLive')}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+      `;
+    }
+
+    const languageBadgeHtml = project.primaryLanguage
+      ? `<span class="project-lang">
+           <span class="project-lang-dot" style="background-color: ${langColor}"></span>
+           ${project.primaryLanguage}
+         </span>`
+      : '<span>-</span>';
+
+    card.innerHTML = `
+      <div class="project-header">
+        <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="project-repo-name">${project.name}</a>
+        <div class="project-header-badges">
+          ${focusBadgeHtml}
+          ${starsElement}
+        </div>
+      </div>
+      <p class="project-desc">${descText}</p>
+      <div class="project-footer">
+        ${languageBadgeHtml}
+        <div class="project-links">
+          ${linksHtml}
+        </div>
+      </div>
+    `;
+
+    currentFocusGrid.appendChild(card);
   });
 }
 
