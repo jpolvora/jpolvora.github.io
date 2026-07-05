@@ -6,7 +6,9 @@
   "main": "update.js",
   "scripts": {
     "update": "node update.js",
-    "sync": "node update.js --skip-pr"
+    "sync": "node update.js --skip-pr",
+    "security-check": "node scripts/scan-secrets.js",
+    "review-bio": "node scripts/review-bio.js --suggest"
   },
   "keywords": [
     "portfolio",
