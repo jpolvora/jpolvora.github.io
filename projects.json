@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-05T20:10:52.150Z",
+  "updatedAt": "2026-07-05T20:11:19.999Z",
   "stats": {
     "totalRepos": 37,
     "totalStars": 7,
@@ -12,7 +12,61 @@
       "PHP": 12.1
     }
   },
-  "pinnedProjects": [],
+  "pinnedProjects": [
+    {
+      "name": "cursor-profile-manager",
+      "description": "multi profile cursor user-data-dir desktop manager scripts powershell winforms",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/cursor-profile-manager",
+      "homepageUrl": null,
+      "primaryLanguage": "PowerShell",
+      "topics": []
+    },
+    {
+      "name": "cursor-reviewer",
+      "description": "agentic pipeline code reviewr using cursor-sdk",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/cursor-reviewer",
+      "homepageUrl": null,
+      "primaryLanguage": "TypeScript",
+      "topics": []
+    },
+    {
+      "name": "agentic-code-reviewers",
+      "description": "Multi Agent Code Reviewer",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/agentic-code-reviewers",
+      "homepageUrl": null,
+      "primaryLanguage": "TypeScript",
+      "topics": []
+    },
+    {
+      "name": "pejotinha-v4",
+      "description": "🚀 Pejotinha v4 - Freelancer Dashboard & Proof of Work",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/pejotinha-v4",
+      "homepageUrl": null,
+      "primaryLanguage": "JavaScript",
+      "topics": []
+    },
+    {
+      "name": "Microsoft.FeatureManagement.Plus",
+      "description": "Add enhancements to Microsoft.FeatureManagement library, such as Entity Framework as IFeatureDefinitionProvider, Caching, Logging, Context Filters tenant-aware and more!",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/Microsoft.FeatureManagement.Plus",
+      "homepageUrl": "https://github.com/jpolvora/Microsoft.FeatureManagement.Plus",
+      "primaryLanguage": "C#",
+      "topics": [
+        "enabled-state-filtering",
+        "feature-flags",
+        "feature-management",
+        "feature-toggle",
+        "features",
+        "remote-config",
+        "featuredefinitionprovider"
+      ]
+    }
+  ],
   "projects": [
     {
       "name": "MEFedIoC",
