@@ -61,9 +61,16 @@
   </script>
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=1.2">
+  <link rel="stylesheet" href="style.css?v=1.6">
 </head>
 <body>
+
+  <!-- Language Selector -->
+  <div class="lang-selector" id="lang-selector" role="group" aria-label="Selecionar idioma">
+    <button type="button" data-lang="pt" class="lang-btn" title="Português" aria-label="Português">PT</button>
+    <button type="button" data-lang="en" class="lang-btn" title="English" aria-label="English">EN</button>
+    <button type="button" data-lang="es" class="lang-btn" title="Español" aria-label="Español">ES</button>
+  </div>
 
   <!-- Background decorations -->
   <div class="container">
@@ -75,14 +82,14 @@
           <img class="profile-avatar" src="https://avatars.githubusercontent.com/u/955554?v=4" alt="Jone Polvora">
           <div class="status-badge" id="hireable-badge">
             <span class="status-dot"></span>
-            Disponível
+            <span data-i18n="status.available">Disponível</span>
           </div>
         </div>
         
         <div class="profile-info">
           <h1 class="profile-name">Jone Polvora</h1>
-          <p class="profile-title">AI Solutions Architect, Agentic &amp; Product Engineer</p>
-          <p class="profile-bio">
+          <p class="profile-title" data-i18n="profile.title">AI Solutions Architect, Agentic &amp; Product Engineer</p>
+          <p class="profile-bio" data-i18n="profile.bio">
             Consultor e Arquiteto de Inteligência Artificial com 20+ anos em TI e 15+ em desenvolvimento de soluções customizadas. Projeto e entrego sistemas cognitivos e automatizados usando IA, Agentic Engineering &amp; Orchestration, Harness (CI/CD/GitOps) e Product Engineering — do conceito à produção. Disponível para consultoria e projetos.
           </p>
           
@@ -91,14 +98,14 @@
               <svg style="width:18px;height:18px;fill:currentColor" viewBox="0 0 24 24">
                 <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.137 20.162 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
               </svg>
-              GitHub
+              <span data-i18n="btn.github">GitHub</span>
             </a>
             <a href="mailto:jpolvora@gmail.com" class="btn btn-secondary" id="email-link">
               <svg style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2" viewBox="0 0 24 24">
                 <rect width="20" height="16" x="2" y="4" rx="2"/>
                 <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
               </svg>
-              Contato
+              <span data-i18n="btn.contact">Contato</span>
             </a>
           </div>
 
@@ -110,21 +117,21 @@
                 <line x1="8" y1="21" x2="16" y2="21"/>
                 <line x1="12" y1="17" x2="12" y2="21"/>
               </svg>
-              Projetos
+              <span data-i18n="nav.projects">Projetos</span>
             </a>
             <a href="#cursos" class="nav-pill">
               <svg style="width:14px;height:14px;vertical-align:middle;margin-right:4px;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path d="M22 10v6M2 10l10-5 10 5-10 5-10 5z"/>
                 <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/>
               </svg>
-              Cursos &amp; Certificações
+              <span data-i18n="nav.courses">Cursos &amp; Certificações</span>
             </a>
             <a href="#posts" class="nav-pill">
               <svg style="width:14px;height:14px;vertical-align:middle;margin-right:4px;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
                 <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
               </svg>
-              Blog &amp; Publicações
+              <span data-i18n="nav.blog">Blog &amp; Publicações</span>
             </a>
           </nav>
         </div>
@@ -136,11 +143,11 @@
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-num" id="total-repos-count">-</div>
-          <div class="stat-label">Projetos no Portfolio</div>
+          <div class="stat-label" data-i18n="stats.projects">Projetos no Portfolio</div>
         </div>
         <div class="stat-card">
           <div class="stat-num" id="total-stars-count">-</div>
-          <div class="stat-label">Total de Stars</div>
+          <div class="stat-label" data-i18n="stats.stars">Total de Stars</div>
         </div>
       </div>
       
@@ -151,7 +158,7 @@
             <polyline points="16 18 22 12 16 6"/>
             <polyline points="8 6 2 12 8 18"/>
           </svg>
-          Principais Tecnologias
+          <span data-i18n="stats.technologies">Principais Tecnologias</span>
         </h2>
         <div class="languages-bar" id="languages-bar-container">
           <!-- Dynamic segments will be inserted here -->
@@ -162,19 +169,17 @@
       </div>
     </section>
 
-    </section>
-
     <!-- Main Projects Section -->
     <main id="projetos">
       <div class="portfolio-header">
-        <h2 class="portfolio-title">Projetos em Destaque</h2>
+        <h2 class="portfolio-title" data-i18n="projects.title">Projetos em Destaque</h2>
         <div class="search-filter-box">
           <div class="search-input-wrapper">
             <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="11" cy="11" r="8"/>
               <line x1="21" y1="21" x2="16.65" y2="16.65"/>
             </svg>
-            <input type="text" id="search-input" class="search-input" placeholder="Buscar projetos por nome ou descrição...">
+            <input type="text" id="search-input" class="search-input" data-i18n="projects.search" placeholder="Buscar projetos por nome ou descrição...">
           </div>
         </div>
       </div>
@@ -188,7 +193,7 @@
       <div class="projects-grid" id="projects-grid">
         <div class="empty-state">
           <div class="empty-state-icon">⌛</div>
-          <h3>Carregando projetos...</h3>
+          <h3 data-i18n="projects.loading">Carregando projetos...</h3>
         </div>
       </div>
     </main>
@@ -200,7 +205,7 @@
           <path d="M22 10v6M2 10l10-5 10 5-10 5-10 5zm0 0"/>
           <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/>
         </svg>
-        Cursos &amp; Certificações
+        <span data-i18n="section.courses">Cursos &amp; Certificações</span>
       </h2>
       
       <div class="cert-grid">
@@ -295,7 +300,7 @@
           <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
           <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
         </svg>
-        Blog &amp; Publicações
+        <span data-i18n="section.blog">Blog &amp; Publicações</span>
       </h2>
       
       <div class="posts-layout-grid">
@@ -305,10 +310,10 @@
             <div class="blog-highlight-card">
               <span class="blog-tag">Blog</span>
               <h3 class="blog-name">jpolvora.wordpress.com</h3>
-              <p class="blog-desc">
+              <p class="blog-desc" data-i18n="blog.desc">
                 Notas técnicas, tutoriais práticos e insights sobre Clean Architecture, .NET, SOLID e desenvolvimento de software sustentável.
               </p>
-              <div class="btn btn-primary" style="padding:0.4rem 1rem; font-size:0.85rem; border-radius:8px; display:inline-block">Ler Artigos</div>
+              <div class="btn btn-primary" style="padding:0.4rem 1rem; font-size:0.85rem; border-radius:8px; display:inline-block" data-i18n="blog.cta">Ler Artigos</div>
             </div>
           </a>
         </div>
@@ -325,7 +330,7 @@
                 </div>
                 <div class="post-info">
                   <h4 class="post-title">AI Engineering: Do Prompt ao Loop</h4>
-                  <span class="post-type">Artigo LinkedIn</span>
+                  <span class="post-type" data-i18n="post.article">Artigo LinkedIn</span>
                 </div>
               </a>
             </li>
@@ -339,7 +344,7 @@
                 </div>
                 <div class="post-info">
                   <h4 class="post-title">Vibe Coding vs Spec-Driven Development / AI Engineering</h4>
-                  <span class="post-type">Post LinkedIn</span>
+                  <span class="post-type" data-i18n="post.post">Post LinkedIn</span>
                 </div>
               </a>
             </li>
@@ -353,7 +358,7 @@
                 </div>
                 <div class="post-info">
                   <h4 class="post-title">AI Agents Guide, Software Engineering &amp; Automation</h4>
-                  <span class="post-type">Post LinkedIn</span>
+                  <span class="post-type" data-i18n="post.post">Post LinkedIn</span>
                 </div>
               </a>
             </li>
@@ -367,7 +372,7 @@
                 </div>
                 <div class="post-info">
                   <h4 class="post-title">Contextual Architecture for AI</h4>
-                  <span class="post-type">Post LinkedIn</span>
+                  <span class="post-type" data-i18n="post.post">Post LinkedIn</span>
                 </div>
               </a>
             </li>
@@ -384,19 +389,19 @@
     <div class="container">
       <div class="footer-content">
         <div class="footer-socials">
-          <a href="https://github.com/jpolvora" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="mailto:jpolvora@gmail.com" class="footer-link">E-mail</a>
-          <a href="http://jpolvora.wordpress.com" class="footer-link" target="_blank" rel="noopener noreferrer">Blog</a>
-          <a href="https://github.com/jpolvora/jpolvora.github.io/blob/main/FEATURES.md" class="footer-link" target="_blank" rel="noopener noreferrer">Sobre o Site (Features)</a>
+          <a href="https://github.com/jpolvora" class="footer-link" target="_blank" rel="noopener noreferrer" data-i18n="btn.github">GitHub</a>
+          <a href="mailto:jpolvora@gmail.com" class="footer-link" data-i18n="footer.email">E-mail</a>
+          <a href="http://jpolvora.wordpress.com" class="footer-link" target="_blank" rel="noopener noreferrer" data-i18n="footer.blog">Blog</a>
+          <a href="https://github.com/jpolvora/jpolvora.github.io/blob/main/FEATURES.md" class="footer-link" target="_blank" rel="noopener noreferrer" data-i18n="footer.features">Sobre o Site (Features)</a>
         </div>
-        <p class="footer-copy">&copy; 2026 Jone Polvora. Desenvolvido profissionalmente.</p>
+        <p class="footer-copy" data-i18n="footer.copy">&copy; 2026 Jone Polvora. Desenvolvido profissionalmente.</p>
         <div>
           <span class="footer-update-badge" id="last-updated-badge">
             <svg style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2" viewBox="0 0 24 24">
               <circle cx="12" cy="12" r="10"/>
               <polyline points="12 6 12 12 16 14"/>
             </svg>
-            Atualizado: <span id="last-updated-date">-</span>
+            <span data-i18n="footer.updated">Atualizado</span>: <span id="last-updated-date">-</span>
           </span>
         </div>
       </div>
@@ -410,7 +415,8 @@
     </svg>
   </button>
 
-  <!-- Frontend logic -->
-  <script src="app.js?v=1.2"></script>
+  <!-- i18n + Frontend logic -->
+  <script src="i18n.js?v=1.6"></script>
+  <script src="app.js?v=1.6"></script>
 </body>
 </html>

@@ -17,6 +17,7 @@ Este documento lista e descreve todas as funcionalidades, otimizações e integr
 - **Menu de Navegação Rápida (Pills)**: Abas horizontais ("Projetos", "Cursos & Certificações", "Blog & Publicações") integradas abaixo da biografia.
 - **Scroll Suave (Anchor Jumps)**: Transições e rolagem suaves configuradas via `scroll-behavior: smooth` ao clicar nas abas de navegação.
 - **Botão Flutuante Voltar ao Topo**: Botão dinâmico na extremidade inferior direita que surge após rolar 300px de página e retorna o usuário ao cabeçalho suavemente no clique.
+- **Internacionalização i18n (PT/EN/ES)**: Seletor de idioma no topo com detecção automática via `navigator.languages` e persistência em `localStorage`. Detalhes na Seção 8.
 
 ### 3. Showcase Dinâmico de Projetos
 - **Integração Assíncrona via JSON**: Projetos carregados dinamicamente via JavaScript client-side a partir do arquivo `projects.json`.
@@ -49,3 +50,12 @@ Este documento lista e descreve todas as funcionalidades, otimizações e integr
   - Filtra forks inativos e repositórios sem descrição.
   - Atualiza o cache do `projects.json`.
   - Abre uma Pull Request na branch de atualização para validação dos dados antes de ir ao ar.
+
+### 8. Internacionalização (i18n)
+- **Três idiomas**: Português (pt-BR, padrão), Inglês (en) e Espanhol (es).
+- **Seletor fixo no topo**: Botões PT / EN / ES no canto superior direito, com estado ativo destacado.
+- **Detecção automática**: Prioriza preferência salva (`localStorage`), depois idiomas do navegador (`navigator.languages`), com fallback para pt.
+- **Arquitetura**: `i18n.js` carrega `translations.json`, expõe `window.t()` e dispara eventos `i18n:ready` / `i18n:changed`.
+- **HTML estático**: Atributo `data-i18n="chave"` em labels, títulos, botões e placeholders.
+- **Conteúdo dinâmico**: `app.js` usa `window.t()` para filtros, estados vazios, erros e tooltips; re-renderiza ao trocar idioma.
+- **SEO dinâmico**: `<title>`, meta description, Open Graph e Twitter Cards atualizados conforme o idioma selecionado.

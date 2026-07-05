@@ -1,6 +1,5 @@
 // Frontend App logic for Jone Polvora Portfolio
 
-// Colors for programming languages matching GitHub's default look
 const LANGUAGE_COLORS = {
   'C#': '#178600',
   'JavaScript': '#f1e05a',
@@ -22,7 +21,6 @@ const LANGUAGE_COLORS = {
 
 const DEFAULT_LANG_COLOR = '#6b7280';
 
-// App State
 let state = {
   projects: [],
   filteredProjects: [],
@@ -32,7 +30,6 @@ let state = {
   searchQuery: ''
 };
 
-// DOM Elements
 const searchInput = document.getElementById('search-input');
 const filtersContainer = document.getElementById('filters-container');
 const projectsGrid = document.getElementById('projects-grid');
@@ -43,26 +40,44 @@ const languagesBar = document.getElementById('languages-bar-container');
 const languagesLegend = document.getElementById('languages-legend-container');
 const lastUpdatedDate = document.getElementById('last-updated-date');
 
-// Initialization
-document.addEventListener('DOMContentLoaded', () => {
-  fetchProjectsData();
+function translate(key) {
+  return typeof window.t === 'function' ? window.t(key) : key;
+}
+
+function getDateLocale() {
+  return typeof window.getLocale === 'function' ? window.getLocale() : 'pt-BR';
+}
+
+function initApp() {
   setupEventListeners();
+  window.addEventListener('i18n:ready', fetchProjectsData, { once: true });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
+
+window.addEventListener('i18n:changed', () => {
+  renderStats();
+  renderFilters();
+  renderProjects();
 });
 
-// Fetch data from projects.json
 async function fetchProjectsData() {
   try {
     const response = await fetch('projects.json');
     if (!response.ok) {
-      throw new Error('Não foi possível carregar a base de dados de projetos.');
+      throw new Error(translate('projects.fetchError'));
     }
     const data = await response.json();
-    
+
     state.projects = data.projects || [];
     state.filteredProjects = [...state.projects];
     state.stats = data.stats || { totalRepos: 0, totalStars: 0, languages: {} };
     state.updatedAt = data.updatedAt;
-    
+
     renderStats();
     renderFilters();
     renderProjects();
@@ -71,14 +86,13 @@ async function fetchProjectsData() {
     projectsGrid.innerHTML = `
       <div class="empty-state">
         <div class="empty-state-icon">⚠️</div>
-        <h3>Erro ao carregar os projetos</h3>
+        <h3>${translate('projects.error')}</h3>
         <p>${error.message}</p>
       </div>
     `;
   }
 }
 
-// Event Listeners
 function setupEventListeners() {
   searchInput.addEventListener('input', (e) => {
     state.searchQuery = e.target.value.toLowerCase().trim();
@@ -86,14 +100,13 @@ function setupEventListeners() {
   });
 }
 
-// Render Stats & Languages
 function renderStats() {
   totalReposCount.textContent = state.stats.totalRepos || state.projects.length;
   totalStarsCount.textContent = state.stats.totalStars || 0;
-  
+
   if (state.updatedAt) {
     const date = new Date(state.updatedAt);
-    lastUpdatedDate.textContent = date.toLocaleDateString('pt-BR', {
+    lastUpdatedDate.textContent = date.toLocaleDateString(getDateLocale(), {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
@@ -102,11 +115,10 @@ function renderStats() {
     });
   }
 
-  // Draw language distribution bar
   const languages = state.stats.languages || {};
   const sortedLangs = Object.entries(languages)
-    .sort((a, b) => b[1] - a[1]) // Sort by percentage descending
-    .slice(0, 8); // Keep top 8
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 8);
 
   if (sortedLangs.length > 0) {
     languagesBox.style.display = 'block';
@@ -115,8 +127,7 @@ function renderStats() {
 
     sortedLangs.forEach(([lang, percent]) => {
       const color = LANGUAGE_COLORS[lang] || DEFAULT_LANG_COLOR;
-      
-      // Add bar segment
+
       const segment = document.createElement('div');
       segment.className = 'lang-segment';
       segment.style.width = `${percent}%`;
@@ -124,7 +135,6 @@ function renderStats() {
       segment.title = `${lang}: ${percent}%`;
       languagesBar.appendChild(segment);
 
-      // Add legend item
       const legendItem = document.createElement('div');
       legendItem.className = 'legend-item';
       legendItem.innerHTML = `
@@ -137,9 +147,7 @@ function renderStats() {
   }
 }
 
-// Render filter badges
 function renderFilters() {
-  // Aggregate languages from projects list
   const languagesSet = new Set();
   state.projects.forEach(p => {
     if (p.primaryLanguage) {
@@ -148,13 +156,13 @@ function renderFilters() {
   });
 
   const sortedLanguages = Array.from(languagesSet).sort();
-  
+  const allLabel = translate('filters.all');
+
   filtersContainer.innerHTML = '';
-  
-  // All button
+
   const allBadge = document.createElement('button');
   allBadge.className = `filter-badge ${state.activeFilter === 'All' ? 'active' : ''}`;
-  allBadge.textContent = 'Todos';
+  allBadge.textContent = allLabel;
   allBadge.addEventListener('click', () => setFilter('All'));
   filtersContainer.appendChild(allBadge);
 
@@ -169,44 +177,40 @@ function renderFilters() {
 
 function setFilter(filter) {
   state.activeFilter = filter;
-  
-  // Update active classes
-  const badges = filtersContainer.querySelectorAll('.filter-badge');
-  badges.forEach(badge => {
-    if (badge.textContent === (filter === 'All' ? 'Todos' : filter)) {
-      badge.classList.add('active');
-    } else {
-      badge.classList.remove('active');
-    }
+  const allLabel = translate('filters.all');
+
+  filtersContainer.querySelectorAll('.filter-badge').forEach(badge => {
+    const isActive = filter === 'All'
+      ? badge.textContent === allLabel
+      : badge.textContent === filter;
+    badge.classList.toggle('active', isActive);
   });
 
   filterAndRenderProjects();
 }
 
-// Search and Filter computation
 function filterAndRenderProjects() {
   state.filteredProjects = state.projects.filter(p => {
-    const matchesSearch = p.name.toLowerCase().includes(state.searchQuery) || 
+    const matchesSearch = p.name.toLowerCase().includes(state.searchQuery) ||
                           (p.description && p.description.toLowerCase().includes(state.searchQuery));
-    
+
     const matchesFilter = state.activeFilter === 'All' || p.primaryLanguage === state.activeFilter;
-    
+
     return matchesSearch && matchesFilter;
   });
 
   renderProjects();
 }
 
-// Render dynamic project cards
 function renderProjects() {
   projectsGrid.innerHTML = '';
-  
+
   if (state.filteredProjects.length === 0) {
     projectsGrid.innerHTML = `
       <div class="empty-state">
         <div class="empty-state-icon">🔍</div>
-        <h3>Nenhum projeto encontrado</h3>
-        <p>Tente ajustar a busca ou o filtro de tecnologia.</p>
+        <h3>${translate('projects.noResults')}</h3>
+        <p>${translate('projects.noResultsHint')}</p>
       </div>
     `;
     return;
@@ -215,34 +219,28 @@ function renderProjects() {
   state.filteredProjects.forEach(project => {
     const card = document.createElement('article');
     card.className = 'project-card';
-    
+
     const langColor = LANGUAGE_COLORS[project.primaryLanguage] || DEFAULT_LANG_COLOR;
-    const descText = project.description || 'Sem descrição cadastrada.';
-    
-    // Prepare star count display
-    const starsElement = project.stargazerCount > 0 
+    const descText = project.description || translate('projects.noDesc');
+
+    const starsElement = project.stargazerCount > 0
       ? `<span class="project-star" title="Stargazers">
            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
            ${project.stargazerCount}
          </span>`
       : '';
 
-    // Prepare links
-    let linksHtml = '';
-    
-    // Always provide GitHub Link
-    linksHtml += `
-      <a href="${project.url}" class="project-link" target="_blank" rel="noopener noreferrer" title="Ver repositório no GitHub">
+    let linksHtml = `
+      <a href="${project.url}" class="project-link" target="_blank" rel="noopener noreferrer" title="${translate('projects.viewRepo')}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
         </svg>
       </a>
     `;
 
-    // Live link if homepageUrl is present
     if (project.homepageUrl) {
       linksHtml += `
-        <a href="${project.homepageUrl}" class="project-link" target="_blank" rel="noopener noreferrer" title="Acessar demonstração ao vivo">
+        <a href="${project.homepageUrl}" class="project-link" target="_blank" rel="noopener noreferrer" title="${translate('projects.viewLive')}">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
             <polyline points="15 3 21 3 21 9"/>
@@ -252,7 +250,7 @@ function renderProjects() {
       `;
     }
 
-    const languageBadgeHtml = project.primaryLanguage 
+    const languageBadgeHtml = project.primaryLanguage
       ? `<span class="project-lang">
            <span class="project-lang-dot" style="background-color: ${langColor}"></span>
            ${project.primaryLanguage}
@@ -277,7 +275,6 @@ function renderProjects() {
   });
 }
 
-// Floating back-to-top button interaction
 const scrollToTopBtn = document.getElementById('scroll-to-top');
 
 window.addEventListener('scroll', () => {
