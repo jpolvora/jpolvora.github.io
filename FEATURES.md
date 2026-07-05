@@ -45,7 +45,7 @@ Este documento lista e descreve todas as funcionalidades, otimizações e integr
 
 ### 7. Infraestrutura de Atualização Automatizada
 - **Cache-Busting**: Parâmetros de versão (`?v=1.2`) indexados aos scripts e estilos para evitar carregamento de visual quebrado por cache de navegador antigo.
-- **Pipeline de CI/CD (GitHub Actions)**: Fluxo `.github/workflows/deploy.yml` configurado para compilar e hospedar o site no GitHub Pages diretamente no push da branch `main`.
+- **Deploy GitHub Pages (legacy)**: Publicação automática a partir da branch `main` (`.nojekyll` garante servir HTML/CSS/JS estático sem Jekyll). Evita conflito com workflow Actions duplicado.
 - **Script de Automação (`update.js`)**: Script integrado no Node (`npm run update`) que:
   - Scaneia a conta do usuário usando a CLI do GitHub.
   - Filtra forks inativos e repositórios sem descrição.

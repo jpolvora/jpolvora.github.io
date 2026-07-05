@@ -227,7 +227,7 @@ async function gitFlow() {
     run(`git add ${stagingFiles}`);
     run('git commit -m "auto: sync projects, sitemap and features docs"');
     run(`git push origin ${currentBranch}`);
-    console.log('🚀  Pushed to origin. GitHub Actions will deploy automatically.');
+    console.log('🚀  Pushed to origin. GitHub Pages will deploy from main automatically.');
   } else {
     // ── PR-based flow (default) ────────────────────────────────────────────
     const timestamp  = new Date().toISOString().replace(/[:.]/g, '-').replace('T', '_').slice(0, 19);

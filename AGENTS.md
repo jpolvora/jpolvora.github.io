@@ -76,7 +76,7 @@ Atualizar FEATURES.md   ← OBRIGATÓRIO para toda nova feature
 git add / git commit / git push
        │
        ▼
-GitHub Actions faz o deploy automático no GitHub Pages
+GitHub Pages publica automaticamente a partir da branch `main`
 ```
 
 ---
