@@ -1,5 +1,5 @@
 # Histórico de Features - Jone Polvora Portfolio
-<!-- last-updated: 2026-07-05 -->
+<!-- last-updated: 2026-07-10 -->
 
 Este documento lista e descreve todas as funcionalidades, otimizações e integrações adicionadas ao portfólio profissional de Jone Pólvora.
 
