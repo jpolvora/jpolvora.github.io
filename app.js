@@ -297,8 +297,10 @@ function renderPinnedProjects() {
   currentFocusSection.style.display = 'block';
 
   state.pinnedProjects.forEach(project => {
+    const isHighlighted = project.highlighted === true;
     const card = document.createElement('article');
-    card.className = 'project-card featured';
+    const highlightedClass = isHighlighted ? ' highlighted-card' : '';
+    card.className = 'project-card featured' + highlightedClass;
 
     const langColor = LANGUAGE_COLORS[project.primaryLanguage] || DEFAULT_LANG_COLOR;
     const descText = project.description || translate('projects.noDesc');
@@ -310,12 +312,15 @@ function renderPinnedProjects() {
          </span>`
       : '';
 
-    const focusBadgeHtml = `
-      <span class="focus-badge">
-        <span class="focus-dot"></span>
-        ${translate('projects.activeFocus')}
-      </span>
-    `;
+    const focusBadgeHtml = isHighlighted
+      ? `<span class="focus-badge highlight">
+           <span class="highlight-dot"></span>
+           ${translate('projects.newProject')}
+         </span>`
+      : `<span class="focus-badge">
+           <span class="focus-dot"></span>
+           ${translate('projects.activeFocus')}
+         </span>`;
 
     let linksHtml = `
       <a href="${project.url}" class="project-link" target="_blank" rel="noopener noreferrer" title="${translate('projects.viewRepo')}">

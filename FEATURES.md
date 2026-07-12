@@ -1,5 +1,5 @@
 # Histórico de Features - Jone Polvora Portfolio
-<!-- last-updated: 2026-07-10 -->
+<!-- last-updated: 2026-07-12 -->
 
 Este documento lista e descreve todas as funcionalidades, otimizações e integrações adicionadas ao portfólio profissional de Jone Pólvora.
 
@@ -12,6 +12,7 @@ Este documento lista e descreve todas as funcionalidades, otimizações e integr
 - **Tipografia Moderna**: Fontes `Outfit` (para títulos e destaque) e `Plus Jakarta Sans` (para corpo e leitura fluida) via Google Fonts.
 - **Cards com Glassmorphism**: Bordas semitransparentes, sombras suaves e efeito de desfoque de fundo (`backdrop-filter`) para uma estética moderna de alta qualidade.
 - **Seção de Foco Ativo (Pinned Repos)**: Um grid destacado no topo exibindo os repositórios fixados do GitHub, com estilo premium glassmorphism, gradientes e indicador de status pulsante.
+- **Badge de Ênfase "Novo Projeto"**: Badge com gradiente e glow pulsante para destacar o repositório `workflow-skills` como novo projeto em evidência, com variações de texto em pt/en/es via i18n.
 - **Efeitos de Hover Dinâmicos**: Micro-animações e glows aplicados nos links de navegação, cards de projetos, botões de ação e tags.
 
 ### 2. Navegação Inteligente e Interativa

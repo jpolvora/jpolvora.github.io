@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-10T18:21:01.946Z",
+  "updatedAt": "2026-07-12T03:52:33.193Z",
   "stats": {
     "totalRepos": 39,
     "totalStars": 7,
@@ -51,13 +51,14 @@
       "topics": []
     },
     {
-      "name": "pejotinha-v4",
-      "description": "🚀 Pejotinha v4 - Freelancer Dashboard & Proof of Work",
+      "name": "workflow-skills",
+      "description": "AI Skill Registry & Workflow Orchestration - define, version, and compose agentic skills into executable workflows",
       "stargazerCount": 0,
-      "url": "https://github.com/jpolvora/pejotinha-v4",
+      "url": "https://github.com/jpolvora/workflow-skills",
       "homepageUrl": null,
-      "primaryLanguage": "JavaScript",
-      "topics": []
+      "primaryLanguage": "Python",
+      "topics": [],
+      "highlighted": true
     }
   ],
   "projects": [
