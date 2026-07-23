@@ -1,14 +1,14 @@
 {
-  "updatedAt": "2026-07-12T03:52:33.193Z",
+  "updatedAt": "2026-07-23T21:35:38.155Z",
   "stats": {
     "totalRepos": 39,
     "totalStars": 7,
     "languages": {
       "JavaScript": 28.6,
       "C#": 28.6,
-      "Python": 2.9,
-      "TypeScript": 20,
       "PowerShell": 2.9,
+      "TypeScript": 20,
+      "Python": 2.9,
       "Java": 5.7,
       "PHP": 11.4
     }
@@ -52,13 +52,12 @@
     },
     {
       "name": "workflow-skills",
-      "description": "AI Skill Registry & Workflow Orchestration - define, version, and compose agentic skills into executable workflows",
+      "description": "",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/workflow-skills",
       "homepageUrl": null,
-      "primaryLanguage": "Python",
-      "topics": [],
-      "highlighted": true
+      "primaryLanguage": "JavaScript",
+      "topics": []
     }
   ],
   "projects": [
@@ -130,12 +129,12 @@
       "topics": []
     },
     {
-      "name": "cursor-server",
-      "description": "API server for delegating Cursor agent tasks against local repository workspaces",
+      "name": "cursor-profile-manager",
+      "description": "multi profile cursor user-data-dir desktop manager scripts powershell winforms",
       "stargazerCount": 0,
-      "url": "https://github.com/jpolvora/cursor-server",
+      "url": "https://github.com/jpolvora/cursor-profile-manager",
       "homepageUrl": null,
-      "primaryLanguage": "Python",
+      "primaryLanguage": "PowerShell",
       "topics": []
     },
     {
@@ -148,21 +147,21 @@
       "topics": []
     },
     {
+      "name": "cursor-server",
+      "description": "API server for delegating Cursor agent tasks against local repository workspaces",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/cursor-server",
+      "homepageUrl": null,
+      "primaryLanguage": "Python",
+      "topics": []
+    },
+    {
       "name": "ERP.Fiscal",
       "description": "Módulo C#/.NET/ABP para emissão de nota fiscal multi-provedor (PlugNotas)",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/ERP.Fiscal",
       "homepageUrl": null,
       "primaryLanguage": "C#",
-      "topics": []
-    },
-    {
-      "name": "cursor-profile-manager",
-      "description": "multi profile cursor user-data-dir desktop manager scripts powershell winforms",
-      "stargazerCount": 0,
-      "url": "https://github.com/jpolvora/cursor-profile-manager",
-      "homepageUrl": null,
-      "primaryLanguage": "PowerShell",
       "topics": []
     },
     {
