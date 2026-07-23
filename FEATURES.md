@@ -63,3 +63,10 @@ Este documento lista e descreve todas as funcionalidades, otimizações e integr
 - **HTML estático**: Atributo `data-i18n="chave"` em labels, títulos, botões e placeholders.
 - **Conteúdo dinâmico**: `app.js` usa `window.t()` para filtros, estados vazios, erros e tooltips; re-renderiza ao trocar idioma.
 - **SEO dinâmico**: `<title>`, meta description, Open Graph e Twitter Cards atualizados conforme o idioma selecionado.
+
+### 9. Página Dedicada de Currículo (`curriculo.html`)
+- **Página Standalone em Markdown**: Apresentação profissional completa formatada esteticamente em estilo Markdown escuro com tipografia moderna.
+- **Cross-Linking Interativo**: Conexão bidirecional entre experiências profissionais, habilidades técnicas e os projetos open-source em destaque no repositório (`cursor-server`, `cursor-reviewer`, `agentic-code-reviewers`, `cursor-profile-manager`, `workflow-skills`, `dotenvy`), além de artigos no LinkedIn e certificações.
+- **Suporte para Impressão e PDF**: Regras de CSS dedicadas (`@media print`) permitindo ao visitante ou recrutador imprimir ou exportar em PDF direto pelo navegador (`Ctrl+P`) com formatação limpa sobre fundo branco.
+- **Multilíngue (i18n)**: Suporte completo para Português, Inglês e Espanhol na página dedicada.
+

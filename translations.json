@@ -43,6 +43,17 @@
     "projects.viewRepo": "Ver repositório no GitHub",
     "projects.viewLive": "Acessar demonstração ao vivo",
     "projects.fetchError": "Não foi possível carregar a base de dados de projetos.",
+    "nav.resume": "Currículo",
+    "nav.backToPortfolio": "Voltar ao Portfolio",
+    "btn.print": "Imprimir / PDF",
+    "cv.title": "Currículo Profissional",
+    "cv.summaryTitle": "Resumo Profissional",
+    "cv.skillsTitle": "Habilidades Técnicas",
+    "cv.expTitle": "Experiência Profissional",
+    "cv.projectsTitle": "Projetos Open Source em Destaque",
+    "cv.eduTitle": "Formação & Certificações",
+    "cv.pubTitle": "Publicações & Blog",
+    "cv.crosslinkTitle": "Projetos / Conhecimentos Conectados:",
     "lang.selector": "Selecionar idioma"
   },
   "en": {
@@ -89,6 +100,17 @@
     "projects.viewRepo": "View repository on GitHub",
     "projects.viewLive": "Open live demo",
     "projects.fetchError": "Could not load the projects database.",
+    "nav.resume": "Resume",
+    "nav.backToPortfolio": "Back to Portfolio",
+    "btn.print": "Print / PDF",
+    "cv.title": "Professional Resume",
+    "cv.summaryTitle": "Professional Summary",
+    "cv.skillsTitle": "Technical Skills",
+    "cv.expTitle": "Professional Experience",
+    "cv.projectsTitle": "Featured Open Source Projects",
+    "cv.eduTitle": "Education & Certifications",
+    "cv.pubTitle": "Publications & Blog",
+    "cv.crosslinkTitle": "Connected Projects & Skills:",
     "lang.selector": "Select language"
   },
   "es": {
@@ -135,6 +157,17 @@
     "projects.viewRepo": "Ver repositorio en GitHub",
     "projects.viewLive": "Abrir demo en vivo",
     "projects.fetchError": "No se pudo cargar la base de datos de proyectos.",
+    "nav.resume": "Currículum",
+    "nav.backToPortfolio": "Volver al Portfolio",
+    "btn.print": "Imprimir / PDF",
+    "cv.title": "Currículum Profesional",
+    "cv.summaryTitle": "Resumen Profesional",
+    "cv.skillsTitle": "Habilidades Técnicas",
+    "cv.expTitle": "Experiencia Profesional",
+    "cv.projectsTitle": "Proyectos Open Source Destacados",
+    "cv.eduTitle": "Formación y Certificaciones",
+    "cv.pubTitle": "Publicaciones y Blog",
+    "cv.crosslinkTitle": "Proyectos / Conocimientos Conectados:",
     "lang.selector": "Seleccionar idioma"
   }
 }
