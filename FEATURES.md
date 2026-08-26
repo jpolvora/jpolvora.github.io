@@ -1,5 +1,5 @@
 # Histórico de Features - Jone Polvora Portfolio
-<!-- last-updated: 2026-07-23 -->
+<!-- last-updated: 2026-08-26 -->
 
 Este documento lista e descreve todas as funcionalidades, otimizações e integrações adicionadas ao portfólio profissional de Jone Pólvora.
 
@@ -47,13 +47,14 @@ Este documento lista e descreve todas as funcionalidades, otimizações e integr
 - **URL Canônica e Favicon**: Tags configuradas apontando para o link principal e usando o avatar de perfil como favicon padrão.
 
 ### 7. Infraestrutura de Atualização Automatizada
+- **Sincronização de Agent Skills (`workflow-skills` v0.0.76)**: Atualização completa do pacote `.agents/skills` incluindo os novos módulos `fable-method`, `fable-judge` e `fable-domain`.
 - **Cache-Busting**: Parâmetros de versão (`?v=1.2`) indexados aos scripts e estilos para evitar carregamento de visual quebrado por cache de navegador antigo.
 - **Deploy GitHub Pages (legacy)**: Publicação automática a partir da branch `main` (`.nojekyll` garante servir HTML/CSS/JS estático sem Jekyll). Evita conflito com workflow Actions duplicado.
 - **Script de Automação (`update.js`)**: Script integrado no Node (`npm run update`) que:
   - Scaneia a conta do usuário usando a CLI do GitHub (agora incluindo consulta GraphQL `gh api graphql` para os repositórios fixados).
   - Filtra forks inativos e repositórios sem descrição, além de remover o próprio repositório do portfólio de ambas as listas.
   - Atualiza o cache do `projects.json` com `projects` e `pinnedProjects`.
-  - Abre uma Pull Request na branch de atualização para validação dos dados antes de ir ao ar (ou comita diretamente se `--skip-pr` for usado).
+  - Abre uma Pull Request na branch de atualização para validação dos dados antes de ir ao ar (or comita diretamente se `--skip-pr` for usado).
 
 ### 8. Internacionalização (i18n)
 - **Três idiomas**: Português (pt-BR, padrão), Inglês (en) e Espanhol (es).
