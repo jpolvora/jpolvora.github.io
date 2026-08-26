@@ -1,63 +1,106 @@
 {
-  "updatedAt": "2026-07-23T21:35:38.155Z",
+  "updatedAt": "2026-08-26T22:17:13.780Z",
   "stats": {
-    "totalRepos": 39,
+    "totalRepos": 40,
     "totalStars": 7,
     "languages": {
-      "JavaScript": 28.6,
-      "C#": 28.6,
-      "PowerShell": 2.9,
-      "TypeScript": 20,
-      "Python": 2.9,
-      "Java": 5.7,
-      "PHP": 11.4
+      "JavaScript": 27.8,
+      "C#": 27.8,
+      "TypeScript": 25,
+      "PowerShell": 2.8,
+      "Java": 5.6,
+      "PHP": 11.1
     }
   },
   "pinnedProjects": [
     {
-      "name": "cursor-server",
-      "description": "API server for delegating Cursor agent tasks against local repository workspaces",
+      "name": "spec-memo",
+      "description": "Curated working memory for coding agents, stored outside the product git repository.",
       "stargazerCount": 0,
-      "url": "https://github.com/jpolvora/cursor-server",
-      "homepageUrl": null,
-      "primaryLanguage": "Python",
-      "topics": []
-    },
-    {
-      "name": "cursor-profile-manager",
-      "description": "multi profile cursor user-data-dir desktop manager scripts powershell winforms",
-      "stargazerCount": 0,
-      "url": "https://github.com/jpolvora/cursor-profile-manager",
-      "homepageUrl": null,
-      "primaryLanguage": "PowerShell",
-      "topics": []
-    },
-    {
-      "name": "cursor-reviewer",
-      "description": "agentic pipeline code reviewr using cursor-sdk",
-      "stargazerCount": 0,
-      "url": "https://github.com/jpolvora/cursor-reviewer",
-      "homepageUrl": null,
+      "url": "https://github.com/jpolvora/spec-memo",
+      "homepageUrl": "https://github.com/jpolvora/spec-memo",
       "primaryLanguage": "TypeScript",
-      "topics": []
+      "topics": [
+        "agentic-ai",
+        "ai-memory",
+        "coding-agents",
+        "mcp",
+        "typescript"
+      ],
+      "highlighted": true
+    },
+    {
+      "name": "workflow-skills",
+      "description": "Spec-driven delivery pipeline & portable agent skills catalog for coding assistants (npx github:jpolvora/workflow-skills).",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/workflow-skills",
+      "homepageUrl": "https://jpolvora.github.io/workflow-skills",
+      "primaryLanguage": "JavaScript",
+      "topics": [
+        "agentic-workflow",
+        "spec-driven",
+        "ai-agents",
+        "skills-catalog",
+        "npx"
+      ],
+      "highlighted": true
     },
     {
       "name": "agentic-code-reviewers",
-      "description": "Multi Agent Code Reviewer",
+      "description": "Multi-agent collaborative code review system analyzing code quality, security, and architectural patterns.",
       "stargazerCount": 0,
       "url": "https://github.com/jpolvora/agentic-code-reviewers",
       "homepageUrl": null,
       "primaryLanguage": "TypeScript",
-      "topics": []
+      "topics": [
+        "agentic-ai",
+        "code-review",
+        "multi-agent",
+        "typescript"
+      ],
+      "highlighted": true
     },
     {
-      "name": "workflow-skills",
-      "description": "",
+      "name": "cursor-reviewer",
+      "description": "Agentic pipeline code reviewer using Cursor SDK for automated PR analysis and deep technical feedback.",
       "stargazerCount": 0,
-      "url": "https://github.com/jpolvora/workflow-skills",
+      "url": "https://github.com/jpolvora/cursor-reviewer",
       "homepageUrl": null,
-      "primaryLanguage": "JavaScript",
-      "topics": []
+      "primaryLanguage": "TypeScript",
+      "topics": [
+        "cursor-sdk",
+        "agentic-pipeline",
+        "code-review",
+        "typescript"
+      ]
+    },
+    {
+      "name": "cursor-profile-manager",
+      "description": "Multi-profile Cursor user-data-dir desktop manager with PowerShell and WinForms UI.",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/cursor-profile-manager",
+      "homepageUrl": null,
+      "primaryLanguage": "PowerShell",
+      "topics": [
+        "cursor",
+        "powershell",
+        "winforms",
+        "developer-tooling"
+      ]
+    },
+    {
+      "name": "cursor-server",
+      "description": "API server for delegating Cursor agent tasks against local repository workspaces.",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/cursor-server",
+      "homepageUrl": null,
+      "primaryLanguage": "TypeScript",
+      "topics": [
+        "cursor",
+        "agent-api",
+        "automation",
+        "developer-tools"
+      ]
     }
   ],
   "projects": [
@@ -129,31 +172,35 @@
       "topics": []
     },
     {
-      "name": "cursor-profile-manager",
-      "description": "multi profile cursor user-data-dir desktop manager scripts powershell winforms",
+      "name": "spec-memo",
+      "description": "Curated working memory for coding agents, stored outside the product git repository.",
       "stargazerCount": 0,
-      "url": "https://github.com/jpolvora/cursor-profile-manager",
-      "homepageUrl": null,
-      "primaryLanguage": "PowerShell",
-      "topics": []
+      "url": "https://github.com/jpolvora/spec-memo",
+      "homepageUrl": "https://github.com/jpolvora/spec-memo",
+      "primaryLanguage": "TypeScript",
+      "topics": [
+        "agentic-ai",
+        "ai-memory",
+        "coding-agents",
+        "mcp",
+        "typescript"
+      ],
+      "highlighted": true
     },
     {
-      "name": "cursor-reviewer",
-      "description": "agentic pipeline code reviewr using cursor-sdk",
+      "name": "agentic-code-reviewers",
+      "description": "Multi-agent collaborative code review system analyzing code quality, security, and architectural patterns.",
       "stargazerCount": 0,
-      "url": "https://github.com/jpolvora/cursor-reviewer",
+      "url": "https://github.com/jpolvora/agentic-code-reviewers",
       "homepageUrl": null,
       "primaryLanguage": "TypeScript",
-      "topics": []
-    },
-    {
-      "name": "cursor-server",
-      "description": "API server for delegating Cursor agent tasks against local repository workspaces",
-      "stargazerCount": 0,
-      "url": "https://github.com/jpolvora/cursor-server",
-      "homepageUrl": null,
-      "primaryLanguage": "Python",
-      "topics": []
+      "topics": [
+        "agentic-ai",
+        "code-review",
+        "multi-agent",
+        "typescript"
+      ],
+      "highlighted": true
     },
     {
       "name": "ERP.Fiscal",
@@ -165,13 +212,46 @@
       "topics": []
     },
     {
-      "name": "agentic-code-reviewers",
-      "description": "Multi Agent Code Reviewer",
+      "name": "cursor-server",
+      "description": "API server for delegating Cursor agent tasks against local repository workspaces.",
       "stargazerCount": 0,
-      "url": "https://github.com/jpolvora/agentic-code-reviewers",
+      "url": "https://github.com/jpolvora/cursor-server",
       "homepageUrl": null,
       "primaryLanguage": "TypeScript",
-      "topics": []
+      "topics": [
+        "cursor",
+        "agent-api",
+        "automation",
+        "developer-tools"
+      ]
+    },
+    {
+      "name": "cursor-profile-manager",
+      "description": "Multi-profile Cursor user-data-dir desktop manager with PowerShell and WinForms UI.",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/cursor-profile-manager",
+      "homepageUrl": null,
+      "primaryLanguage": "PowerShell",
+      "topics": [
+        "cursor",
+        "powershell",
+        "winforms",
+        "developer-tooling"
+      ]
+    },
+    {
+      "name": "cursor-reviewer",
+      "description": "Agentic pipeline code reviewer using Cursor SDK for automated PR analysis and deep technical feedback.",
+      "stargazerCount": 0,
+      "url": "https://github.com/jpolvora/cursor-reviewer",
+      "homepageUrl": null,
+      "primaryLanguage": "TypeScript",
+      "topics": [
+        "cursor-sdk",
+        "agentic-pipeline",
+        "code-review",
+        "typescript"
+      ]
     },
     {
       "name": "cursor-reviewer-demo-project",
