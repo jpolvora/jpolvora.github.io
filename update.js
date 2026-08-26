@@ -1,6 +1,7 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import { generateResumePdf } from './scripts/generate-pdf.js';
 
 // ─────────────────────────────────────────────
 //  Configuration
@@ -10,6 +11,7 @@ const PORTFOLIO_REPO = 'jpolvora.github.io';
 const PROJECTS_FILE  = './projects.json';
 const SITEMAP_FILE   = './sitemap.xml';
 const FEATURES_FILE  = './FEATURES.md';
+const RESUME_PDF     = './curriculo-jone-polvora.pdf';
 
 // CLI flag: run with  --skip-pr  to commit directly to current branch
 const SKIP_PR = process.argv.includes('--skip-pr');
@@ -31,12 +33,77 @@ function todayISO() {
   return new Date().toISOString().split('T')[0]; // e.g. "2026-07-05"
 }
 
+const PROJECT_ENRICHMENTS = {
+  'spec-memo': {
+    description: 'Curated working memory for coding agents, stored outside the product git repository.',
+    highlighted: true,
+    homepageUrl: 'https://github.com/jpolvora/spec-memo',
+    topics: ['agentic-ai', 'ai-memory', 'coding-agents', 'mcp', 'typescript']
+  },
+  'workflow-skills': {
+    description: 'Spec-driven delivery pipeline & portable agent skills catalog for coding assistants (npx github:jpolvora/workflow-skills).',
+    highlighted: true,
+    homepageUrl: 'https://jpolvora.github.io/workflow-skills',
+    topics: ['agentic-workflow', 'spec-driven', 'ai-agents', 'skills-catalog', 'npx']
+  },
+  'agentic-code-reviewers': {
+    description: 'Multi-agent collaborative code review system analyzing code quality, security, and architectural patterns.',
+    highlighted: true,
+    homepageUrl: null,
+    topics: ['agentic-ai', 'code-review', 'multi-agent', 'typescript']
+  },
+  'cursor-reviewer': {
+    description: 'Agentic pipeline code reviewer using Cursor SDK for automated PR analysis and deep technical feedback.',
+    topics: ['cursor-sdk', 'agentic-pipeline', 'code-review', 'typescript']
+  },
+  'cursor-profile-manager': {
+    description: 'Multi-profile Cursor user-data-dir desktop manager with PowerShell and WinForms UI.',
+    topics: ['cursor', 'powershell', 'winforms', 'developer-tooling']
+  },
+  'cursor-server': {
+    description: 'API server for delegating Cursor agent tasks against local repository workspaces.',
+    topics: ['cursor', 'agent-api', 'automation', 'developer-tools']
+  }
+};
+
+function enrichRepo(repo, isPinned = false) {
+  const enrichment = PROJECT_ENRICHMENTS[repo.name] || {};
+  const description = enrichment.description || repo.description || '';
+  const homepageUrl = enrichment.homepageUrl !== undefined ? enrichment.homepageUrl : (repo.homepageUrl || null);
+  const highlighted = enrichment.highlighted !== undefined ? enrichment.highlighted : Boolean(repo.highlighted);
+  
+  let topics = [];
+  if (enrichment.topics && enrichment.topics.length > 0) {
+    topics = enrichment.topics;
+  } else if (Array.isArray(repo.topics)) {
+    topics = repo.topics;
+  } else if (Array.isArray(repo.repositoryTopics)) {
+    topics = repo.repositoryTopics.map(t => typeof t === 'object' ? (t.name || '') : t).filter(Boolean);
+  }
+
+  const result = {
+    name: repo.name,
+    description,
+    stargazerCount: repo.stargazerCount || 0,
+    url: repo.url,
+    homepageUrl,
+    primaryLanguage: repo.primaryLanguage,
+    topics
+  };
+
+  if (highlighted) {
+    result.highlighted = true;
+  }
+
+  return result;
+}
+
 // ─────────────────────────────────────────────
 //  Step 1 – Fetch repositories via GitHub CLI
 // ─────────────────────────────────────────────
 async function fetchRepos() {
   const fields = 'name,description,stargazerCount,url,isFork,updatedAt,homepageUrl,primaryLanguage,repositoryTopics';
-  const cmd    = `gh repo list ${USERNAME} --public --limit 150 --json ${fields}`;
+  const cmd    = `gh repo list ${USERNAME} --visibility=public --limit 150 --json ${fields}`;
   console.log(`\n📡  Fetching repositories…\n    ${cmd}`);
 
   let reposJson;
@@ -178,26 +245,8 @@ function writeProjectsJson(projects, stats, pinnedProjects = []) {
       totalStars,
       languages: languagesPercent
     },
-    pinnedProjects: pinnedProjects.map(repo => ({
-      name:            repo.name,
-      description:     repo.description,
-      stargazerCount:  repo.stargazerCount,
-      url:             repo.url,
-      homepageUrl:     repo.homepageUrl  || null,
-      primaryLanguage: repo.primaryLanguage,
-      topics:          repo.topics || []
-    })),
-    projects: projects.map(repo => ({
-      name:            repo.name,
-      description:     repo.description,
-      stargazerCount:  repo.stargazerCount,
-      url:             repo.url,
-      homepageUrl:     repo.homepageUrl  || null,
-      primaryLanguage: repo.primaryLanguage,
-      topics:          repo.repositoryTopics
-                         ? repo.repositoryTopics.map(t => t.name || t)
-                         : []
-    }))
+    pinnedProjects: pinnedProjects.map(repo => enrichRepo(repo, true)),
+    projects: projects.map(repo => enrichRepo(repo, false))
   };
 
   fs.writeFileSync(PROJECTS_FILE, JSON.stringify(output, null, 2), 'utf8');
@@ -273,8 +322,8 @@ async function gitFlow() {
   const gitStatus = run('git status --porcelain');
 
   // Detect which tracked files changed
-  const changedFiles = [PROJECTS_FILE, SITEMAP_FILE, FEATURES_FILE]
-    .filter(f => gitStatus.includes(path.basename(f)));
+  const changedFiles = [PROJECTS_FILE, SITEMAP_FILE, FEATURES_FILE, RESUME_PDF]
+    .filter(f => fs.existsSync(f) && gitStatus.includes(path.basename(f)));
 
   if (changedFiles.length === 0) {
     console.log('✅  Nothing changed – portfolio is already up to date!');
@@ -349,6 +398,7 @@ async function main() {
   writeProjectsJson(projects, stats, pinnedProjects);
   updateSitemap();
   stampFeaturesDoc();
+  await generateResumePdf();
   await gitFlow();
 
   console.log('\n✅  Done!\n');
