@@ -393,7 +393,36 @@ async function main() {
   const projects       = filterAndSort(repos);
   const stats          = buildStats(projects);
   const rawPinned      = await fetchPinnedRepos();
-  const pinnedProjects = rawPinned.filter(repo => repo.name.toLowerCase() !== PORTFOLIO_REPO.toLowerCase());
+  let   pinnedProjects = rawPinned.filter(repo => repo.name.toLowerCase() !== PORTFOLIO_REPO.toLowerCase());
+
+  // Ensure all 6 key projects are present in pinned / active focus
+  const desiredPinnedNames = [
+    'spec-memo',
+    'workflow-skills',
+    'agentic-code-reviewers',
+    'cursor-reviewer',
+    'cursor-profile-manager',
+    'cursor-server'
+  ];
+
+  desiredPinnedNames.forEach(name => {
+    if (!pinnedProjects.some(p => p.name === name)) {
+      const match = projects.find(p => p.name === name) || repos.find(r => r.name === name);
+      if (match) {
+        pinnedProjects.push(match);
+      }
+    }
+  });
+
+  // Sort pinned projects to match the prioritized order
+  pinnedProjects.sort((a, b) => {
+    const idxA = desiredPinnedNames.indexOf(a.name);
+    const idxB = desiredPinnedNames.indexOf(b.name);
+    if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+    if (idxA !== -1) return -1;
+    if (idxB !== -1) return 1;
+    return 0;
+  });
 
   writeProjectsJson(projects, stats, pinnedProjects);
   updateSitemap();
