@@ -496,14 +496,14 @@ function main() {
 
   // Extract all content fields
   const data = {
-    title:        html.match(/<title>([^<]*)<\/title>/i)?.[1]?.replace(/&amp;/g, '&').trim() ?? '',
+    title:        html.match(/<title[^>]*>([^<]*)<\/title>/i)?.[1]?.replace(/&amp;/g, '&').trim() ?? '',
     metaDesc:     extractMeta(html, 'description'),
     keywords:     extractMeta(html, 'keywords'),
     ogTitle:      extractOG(html, 'title'),
     ogDesc:       extractOG(html, 'description'),
     h1:           extractTag(html, 'h1'),
-    profileTitle: extractClass(html, 'profile-title'),
-    bio:          extractClass(html, 'profile-bio'),
+    profileTitle: extractClass(html, 'hero-role') || extractClass(html, 'profile-title'),
+    bio:          extractClass(html, 'hero-body') || extractClass(html, 'profile-bio') || extractClass(html, 'hero-lead'),
     jsonLd:       extractJsonLd(html),
     jsonLdDesc:   '',
     jsonLdKnows:  [],

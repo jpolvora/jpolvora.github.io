@@ -1,4 +1,4 @@
-// Frontend App logic for Jone Polvora Portfolio
+// Frontend Application Logic for Jone Polvora Portfolio (v3.0)
 
 const LANGUAGE_COLORS = {
   'C#': '#178600',
@@ -19,7 +19,7 @@ const LANGUAGE_COLORS = {
   'Swift': '#F05138'
 };
 
-const DEFAULT_LANG_COLOR = '#6b7280';
+const DEFAULT_LANG_COLOR = '#64748b';
 
 let state = {
   pinnedProjects: [],
@@ -27,21 +27,25 @@ let state = {
   filteredProjects: [],
   stats: {},
   updatedAt: null,
-  activeFilter: 'All',
-  searchQuery: ''
+  activeFilter: 'all',
+  searchQuery: '',
+  isCollapsed: true
 };
 
-const searchInput = document.getElementById('search-input');
-const filtersContainer = document.getElementById('filters-container');
-const projectsGrid = document.getElementById('projects-grid');
-const totalReposCount = document.getElementById('total-repos-count');
-const totalStarsCount = document.getElementById('total-stars-count');
+// DOM Elements
+const searchInput = document.getElementById('repoSearch');
+const facetsContainer = document.getElementById('facets');
+const repoGrid = document.getElementById('repoGrid');
+const repoEmpty = document.getElementById('repoEmpty');
+const repoMoreBtn = document.getElementById('repoMore');
+const heroReposCount = document.getElementById('hero-repos-count');
 const languagesBox = document.getElementById('languages-box');
 const languagesBar = document.getElementById('languages-bar-container');
 const languagesLegend = document.getElementById('languages-legend-container');
 const lastUpdatedDate = document.getElementById('last-updated-date');
-const currentFocusSection = document.getElementById('current-focus');
 const currentFocusGrid = document.getElementById('current-focus-grid');
+const toTopBtn = document.getElementById('toTop');
+const themeToggleBtn = document.getElementById('themeToggle');
 
 function translate(key) {
   return typeof window.t === 'function' ? window.t(key) : key;
@@ -52,6 +56,8 @@ function getDateLocale() {
 }
 
 function initApp() {
+  setupThemeToggle();
+  setupScrollToTop();
   setupEventListeners();
   window.addEventListener('i18n:ready', fetchProjectsData, { once: true });
 }
@@ -64,11 +70,82 @@ if (document.readyState === 'loading') {
 
 window.addEventListener('i18n:changed', () => {
   renderStats();
-  renderFilters();
-  renderPinnedProjects();
+  renderFacets();
   renderProjects();
+  updateRepoMoreButton();
 });
 
+// ─── Theme Management ──────────────────────────────────────────
+function setupThemeToggle() {
+  if (!themeToggleBtn) return;
+  
+  themeToggleBtn.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try {
+      localStorage.setItem('jp-theme', next);
+    } catch (e) {}
+  });
+}
+
+// ─── Scroll to Top Button ──────────────────────────────────────
+function setupScrollToTop() {
+  if (!toTopBtn) return;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 350) {
+      toTopBtn.classList.add('is-visible');
+    } else {
+      toTopBtn.classList.remove('is-visible');
+    }
+  }, { passive: true });
+
+  toTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+// ─── Event Listeners ───────────────────────────────────────────
+function setupEventListeners() {
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      state.searchQuery = e.target.value.toLowerCase().trim();
+      filterAndRenderProjects();
+    });
+  }
+
+  if (repoMoreBtn) {
+    repoMoreBtn.addEventListener('click', () => {
+      state.isCollapsed = !state.isCollapsed;
+      if (repoGrid) {
+        repoGrid.classList.toggle('is-collapsed', state.isCollapsed);
+      }
+      updateRepoMoreButton();
+    });
+  }
+}
+
+function updateRepoMoreButton() {
+  if (!repoMoreBtn) return;
+  
+  const span = repoMoreBtn.querySelector('span');
+  if (!span) return;
+
+  if (state.searchQuery || state.activeFilter !== 'all') {
+    repoMoreBtn.style.display = 'none';
+  } else {
+    repoMoreBtn.style.display = 'inline-flex';
+    const total = state.projects.length;
+    if (state.isCollapsed) {
+      span.textContent = `${translate('work.seeAll')} (${total})`;
+    } else {
+      span.textContent = translate('work.showLess');
+    }
+  }
+}
+
+// ─── Fetch Projects Data ───────────────────────────────────────
 async function fetchProjectsData() {
   try {
     const response = await fetch('projects.json');
@@ -84,49 +161,44 @@ async function fetchProjectsData() {
     state.updatedAt = data.updatedAt;
 
     renderStats();
-    renderFilters();
-    renderPinnedProjects();
+    renderFacets();
     renderProjects();
+    updateRepoMoreButton();
   } catch (error) {
     console.error('Erro ao carregar dados:', error);
-    projectsGrid.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-state-icon">⚠️</div>
-        <h3>${translate('projects.error')}</h3>
-        <p>${error.message}</p>
-      </div>
-    `;
+    if (repoGrid) {
+      repoGrid.innerHTML = `
+        <div class="empty">
+          <b style="color:var(--accent-purple)">${translate('projects.error')}</b>
+          <span>${error.message}</span>
+        </div>
+      `;
+    }
   }
 }
 
-function setupEventListeners() {
-  searchInput.addEventListener('input', (e) => {
-    state.searchQuery = e.target.value.toLowerCase().trim();
-    filterAndRenderProjects();
-  });
-}
-
+// ─── Render Stats & Language Bar ───────────────────────────────
 function renderStats() {
-  totalReposCount.textContent = state.stats.totalRepos || state.projects.length;
-  totalStarsCount.textContent = state.stats.totalStars || 0;
+  const totalCount = state.stats.totalRepos || state.projects.length;
+  if (heroReposCount) {
+    heroReposCount.textContent = totalCount;
+  }
 
-  if (state.updatedAt) {
+  if (state.updatedAt && lastUpdatedDate) {
     const date = new Date(state.updatedAt);
     lastUpdatedDate.textContent = date.toLocaleDateString(getDateLocale(), {
       day: '2-digit',
       month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+      year: 'numeric'
     });
   }
 
   const languages = state.stats.languages || {};
   const sortedLangs = Object.entries(languages)
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 8);
+    .slice(0, 6);
 
-  if (sortedLangs.length > 0) {
+  if (sortedLangs.length > 0 && languagesBox && languagesBar && languagesLegend) {
     languagesBox.style.display = 'block';
     languagesBar.innerHTML = '';
     languagesLegend.innerHTML = '';
@@ -134,265 +206,148 @@ function renderStats() {
     sortedLangs.forEach(([lang, percent]) => {
       const color = LANGUAGE_COLORS[lang] || DEFAULT_LANG_COLOR;
 
-      const segment = document.createElement('div');
-      segment.className = 'lang-segment';
+      const segment = document.createElement('span');
+      segment.className = 'mix-seg';
       segment.style.width = `${percent}%`;
       segment.style.backgroundColor = color;
       segment.title = `${lang}: ${percent}%`;
       languagesBar.appendChild(segment);
 
-      const legendItem = document.createElement('div');
-      legendItem.className = 'legend-item';
+      const legendItem = document.createElement('li');
       legendItem.innerHTML = `
-        <span class="legend-dot" style="background-color: ${color}"></span>
+        <i class="dot" style="background-color: ${color}"></i>
         <span>${lang}</span>
-        <span class="legend-percent">${percent}%</span>
+        <b>${percent}%</b>
       `;
       languagesLegend.appendChild(legendItem);
     });
   }
 }
 
-function renderFilters() {
-  const languagesSet = new Set();
+// ─── Render Facets (Filters) ───────────────────────────────────
+function renderFacets() {
+  if (!facetsContainer) return;
+  facetsContainer.innerHTML = '';
+
+  const langCounts = {};
   state.projects.forEach(p => {
-    if (p.primaryLanguage) {
-      languagesSet.add(p.primaryLanguage);
-    }
+    const lang = p.primaryLanguage || 'Other';
+    langCounts[lang] = (langCounts[lang] || 0) + 1;
   });
 
-  const sortedLanguages = Array.from(languagesSet).sort();
-  const allLabel = translate('filters.all');
+  const sortedLangs = Object.entries(langCounts)
+    .sort((a, b) => b[1] - a[1]);
 
-  filtersContainer.innerHTML = '';
+  // All button
+  const allBtn = document.createElement('button');
+  allBtn.type = 'button';
+  allBtn.className = `facet ${state.activeFilter === 'all' ? 'is-on' : ''}`;
+  allBtn.setAttribute('data-facet', 'all');
+  allBtn.innerHTML = `${translate('filters.all')} <b>${state.projects.length}</b>`;
+  allBtn.addEventListener('click', () => {
+    state.activeFilter = 'all';
+    filterAndRenderProjects();
+  });
+  facetsContainer.appendChild(allBtn);
 
-  const allBadge = document.createElement('button');
-  allBadge.className = `filter-badge ${state.activeFilter === 'All' ? 'active' : ''}`;
-  allBadge.textContent = allLabel;
-  allBadge.addEventListener('click', () => setFilter('All'));
-  filtersContainer.appendChild(allBadge);
+  // Individual language buttons
+  sortedLangs.forEach(([lang, count]) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = `facet ${state.activeFilter.toLowerCase() === lang.toLowerCase() ? 'is-on' : ''}`;
+    btn.setAttribute('data-facet', lang.toLowerCase());
 
-  sortedLanguages.forEach(lang => {
-    const badge = document.createElement('button');
-    badge.className = `filter-badge ${state.activeFilter === lang ? 'active' : ''}`;
-    badge.textContent = lang;
-    badge.addEventListener('click', () => setFilter(lang));
-    filtersContainer.appendChild(badge);
+    const dotClass = `mix-${lang.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
+    btn.innerHTML = `
+      <i class="dot ${dotClass}"></i>
+      <span>${lang}</span>
+      <b>${count}</b>
+    `;
+
+    btn.addEventListener('click', () => {
+      state.activeFilter = lang.toLowerCase();
+      filterAndRenderProjects();
+    });
+
+    facetsContainer.appendChild(btn);
   });
 }
 
-function setFilter(filter) {
-  state.activeFilter = filter;
-  const allLabel = translate('filters.all');
-
-  filtersContainer.querySelectorAll('.filter-badge').forEach(badge => {
-    const isActive = filter === 'All'
-      ? badge.textContent === allLabel
-      : badge.textContent === filter;
-    badge.classList.toggle('active', isActive);
-  });
-
-  filterAndRenderProjects();
-}
-
+// ─── Filter & Render Repositories ──────────────────────────────
 function filterAndRenderProjects() {
-  state.filteredProjects = state.projects.filter(p => {
-    const matchesSearch = p.name.toLowerCase().includes(state.searchQuery) ||
-                          (p.description && p.description.toLowerCase().includes(state.searchQuery));
+  const query = state.searchQuery;
+  const filter = state.activeFilter.toLowerCase();
 
-    const matchesFilter = state.activeFilter === 'All' || p.primaryLanguage === state.activeFilter;
+  state.filteredProjects = state.projects.filter(project => {
+    const matchesFilter = filter === 'all' || 
+      (project.primaryLanguage && project.primaryLanguage.toLowerCase() === filter) ||
+      (filter === 'other' && !project.primaryLanguage);
 
-    return matchesSearch && matchesFilter;
+    const searchableText = `${project.name} ${project.description || ''} ${(project.topics || []).join(' ')}`.toLowerCase();
+    const matchesQuery = !query || searchableText.includes(query);
+
+    return matchesFilter && matchesQuery;
   });
 
-  renderPinnedProjects();
+  renderFacets();
   renderProjects();
-}
-
-function renderTopics(topics) {
-  if (!topics || !Array.isArray(topics) || topics.length === 0) return '';
-  const tagsHtml = topics.slice(0, 5).map(topic => 
-    `<span class="topic-tag">#${topic}</span>`
-  ).join('');
-  return `<div class="project-topics">${tagsHtml}</div>`;
+  updateRepoMoreButton();
 }
 
 function renderProjects() {
-  projectsGrid.innerHTML = '';
+  if (!repoGrid) return;
 
   if (state.filteredProjects.length === 0) {
-    projectsGrid.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-state-icon">🔍</div>
-        <h3>${translate('projects.noResults')}</h3>
-        <p>${translate('projects.noResultsHint')}</p>
-      </div>
-    `;
+    repoGrid.innerHTML = '';
+    if (repoEmpty) repoEmpty.hidden = false;
     return;
   }
 
-  state.filteredProjects.forEach(project => {
+  if (repoEmpty) repoEmpty.hidden = true;
+  repoGrid.innerHTML = '';
+
+  const isFiltering = state.searchQuery !== '' || state.activeFilter !== 'all';
+
+  state.filteredProjects.forEach((project, index) => {
     const card = document.createElement('article');
-    card.className = 'project-card';
+    const isExtra = !isFiltering && index >= 12;
+    card.className = `card repo ${isExtra ? 'is-extra' : ''}`;
+    
+    const lang = project.primaryLanguage || 'Other';
+    const langClass = `mix-${lang.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
+    const desc = project.description || translate('projects.noDesc');
 
-    const langColor = LANGUAGE_COLORS[project.primaryLanguage] || DEFAULT_LANG_COLOR;
-    const descText = project.description || translate('projects.noDesc');
-
-    const starsElement = project.stargazerCount > 0
-      ? `<span class="project-star" title="Stargazers">
-           <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-           ${project.stargazerCount}
-         </span>`
-      : '';
-
-    let linksHtml = `
-      <a href="${project.url}" class="project-link" target="_blank" rel="noopener noreferrer" title="${translate('projects.viewRepo')}">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-        </svg>
-      </a>
-    `;
-
-    if (project.homepageUrl) {
-      linksHtml += `
-        <a href="${project.homepageUrl}" class="project-link project-link-live" target="_blank" rel="noopener noreferrer" title="${translate('projects.viewLive')}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-            <polyline points="15 3 21 3 21 9"/>
-            <line x1="10" y1="14" x2="21" y2="3"/>
-          </svg>
+    let demoLink = '';
+    if (project.homepageUrl && !project.homepageUrl.includes('github.com')) {
+      demoLink = `
+        <a class="link-out" href="${project.homepageUrl}" target="_blank" rel="noopener noreferrer">
+          Demo <svg class="ico" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg>
         </a>
       `;
     }
 
-    const languageBadgeHtml = project.primaryLanguage
-      ? `<span class="project-lang">
-           <span class="project-lang-dot" style="background-color: ${langColor}"></span>
-           ${project.primaryLanguage}
-         </span>`
-      : '<span>-</span>';
-
-    card.innerHTML = `
-      <div class="project-header">
-        <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="project-repo-name">${project.name}</a>
-        ${starsElement}
-      </div>
-      <p class="project-desc">${descText}</p>
-      ${renderTopics(project.topics)}
-      <div class="project-footer">
-        ${languageBadgeHtml}
-        <div class="project-links">
-          ${linksHtml}
-        </div>
-      </div>
-    `;
-
-    projectsGrid.appendChild(card);
-  });
-}
-
-function renderPinnedProjects() {
-  if (!currentFocusGrid) return;
-  currentFocusGrid.innerHTML = '';
-
-  const hasPinned = state.pinnedProjects && state.pinnedProjects.length > 0;
-  const isFiltering = state.activeFilter !== 'All' || state.searchQuery !== '';
-
-  if (!hasPinned || isFiltering) {
-    currentFocusSection.style.display = 'none';
-    return;
-  }
-
-  currentFocusSection.style.display = 'block';
-
-  state.pinnedProjects.forEach(project => {
-    const isHighlighted = project.highlighted === true;
-    const card = document.createElement('article');
-    const highlightedClass = isHighlighted ? ' highlighted-card' : '';
-    card.className = 'project-card featured' + highlightedClass;
-
-    const langColor = LANGUAGE_COLORS[project.primaryLanguage] || DEFAULT_LANG_COLOR;
-    const descText = project.description || translate('projects.noDesc');
-
-    const starsElement = project.stargazerCount > 0
-      ? `<span class="project-star" title="Stargazers">
-           <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-           ${project.stargazerCount}
-         </span>`
-      : '';
-
-    const focusBadgeHtml = isHighlighted
-      ? `<span class="focus-badge highlight">
-           <span class="highlight-dot"></span>
-           ${translate('projects.newProject')}
-         </span>`
-      : `<span class="focus-badge">
-           <span class="focus-dot"></span>
-           ${translate('projects.activeFocus')}
-         </span>`;
-
-    let linksHtml = `
-      <a href="${project.url}" class="project-link" target="_blank" rel="noopener noreferrer" title="${translate('projects.viewRepo')}">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-        </svg>
-      </a>
-    `;
-
-    if (project.homepageUrl) {
-      linksHtml += `
-        <a href="${project.homepageUrl}" class="project-link project-link-live" target="_blank" rel="noopener noreferrer" title="${translate('projects.viewLive')}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-            <polyline points="15 3 21 3 21 9"/>
-            <line x1="10" y1="14" x2="21" y2="3"/>
-          </svg>
-        </a>
+    let starsBadge = '';
+    if (project.stargazerCount > 0) {
+      starsBadge = `
+        <span class="chip" title="${project.stargazerCount} stars">
+          <svg class="ico" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 6.91-1.01L12 2Z"/></svg>
+          ${project.stargazerCount}
+        </span>
       `;
     }
 
-    const languageBadgeHtml = project.primaryLanguage
-      ? `<span class="project-lang">
-           <span class="project-lang-dot" style="background-color: ${langColor}"></span>
-           ${project.primaryLanguage}
-         </span>`
-      : '<span>-</span>';
-
     card.innerHTML = `
-      <div class="project-header">
-        <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="project-repo-name">${project.name}</a>
-        <div class="project-header-badges">
-          ${focusBadgeHtml}
-          ${starsElement}
-        </div>
-      </div>
-      <p class="project-desc">${descText}</p>
-      ${renderTopics(project.topics)}
-      <div class="project-footer">
-        ${languageBadgeHtml}
-        <div class="project-links">
-          ${linksHtml}
-        </div>
+      <h3>
+        <a href="${project.url}" target="_blank" rel="noopener noreferrer">${project.name}</a>
+      </h3>
+      <p>${desc}</p>
+      <div class="repo-foot">
+        <span class="chip"><i class="dot ${langClass}"></i>${lang}</span>
+        ${starsBadge}
+        ${demoLink}
       </div>
     `;
 
-    currentFocusGrid.appendChild(card);
+    repoGrid.appendChild(card);
   });
 }
-
-const scrollToTopBtn = document.getElementById('scroll-to-top');
-
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 300) {
-    scrollToTopBtn.classList.add('visible');
-  } else {
-    scrollToTopBtn.classList.remove('visible');
-  }
-});
-
-scrollToTopBtn.addEventListener('click', () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-});

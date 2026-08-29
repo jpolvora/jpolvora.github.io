@@ -1,5 +1,5 @@
 /**
- * i18n.js — Internationalisation module for jpolvora.github.io
+ * i18n.js — Internationalisation module for jpolvora.github.io (v3.0)
  *
  * Supports: pt (default), en, es
  * Detection: localStorage → navigator.languages → 'pt'
@@ -100,10 +100,16 @@ function applyTranslations() {
   const langSelector = document.getElementById('lang-selector');
   if (langSelector) langSelector.setAttribute('aria-label', window.t('lang.selector'));
 
-  const scrollBtn = document.getElementById('scroll-to-top');
+  const scrollBtn = document.getElementById('scroll-to-top') || document.getElementById('toTop');
   if (scrollBtn) {
     scrollBtn.setAttribute('aria-label', window.t('btn.scrollTop'));
     scrollBtn.setAttribute('title', window.t('btn.scrollTop'));
+  }
+
+  const themeToggle = document.getElementById('themeToggle');
+  if (themeToggle) {
+    themeToggle.setAttribute('aria-label', window.t('btn.themeToggle'));
+    themeToggle.setAttribute('title', window.t('btn.themeToggle'));
   }
 
   updateMetaTags();
@@ -116,7 +122,9 @@ function initSelector() {
 
   container.querySelectorAll('.lang-btn').forEach(btn => {
     const lang = btn.getAttribute('data-lang');
-    btn.classList.toggle('active', lang === currentLang);
+    const isActive = lang === currentLang;
+    btn.classList.toggle('active', isActive);
+    btn.classList.toggle('is-on', isActive);
 
     btn.addEventListener('click', () => {
       if (lang === currentLang) return;
@@ -129,7 +137,9 @@ function updateSelectorUI() {
   const container = document.getElementById('lang-selector');
   if (!container) return;
   container.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('data-lang') === currentLang);
+    const isActive = btn.getAttribute('data-lang') === currentLang;
+    btn.classList.toggle('active', isActive);
+    btn.classList.toggle('is-on', isActive);
   });
 }
 
@@ -137,7 +147,9 @@ function updateSelectorUI() {
 function setLanguage(lang) {
   if (!SUPPORTED_LANGS.includes(lang)) return;
   currentLang = lang;
-  localStorage.setItem(STORAGE_KEY, lang);
+  try {
+    localStorage.setItem(STORAGE_KEY, lang);
+  } catch (e) {}
   applyTranslations();
   updateSelectorUI();
   window.dispatchEvent(new CustomEvent('i18n:changed', { detail: { lang } }));
@@ -149,7 +161,7 @@ window.currentLang  = () => currentLang;
 // ─── Init ───────────────────────────────────────────────────
 async function initI18n() {
   try {
-    const resp = await fetch('translations.json?v=2.0');
+    const resp = await fetch('translations.json?v=3.0');
     if (resp.ok) translations = await resp.json();
   } catch (e) {
     console.warn('i18n: could not load translations.json', e);
